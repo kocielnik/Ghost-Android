@@ -6,7 +6,7 @@ jobs:
     environment:
       TARGET_SDK_VERSION: 26
 
-    # https://circleci.com/docs/2.0/configuration-reference/#docker--machine-executor
+# circleci.com/docs/2.0/configuration-reference/#docker--machine-executor
     docker:
       - image: circleci/android:api-${TARGET_SDK_VERSION}-alpha
       - image: ghost:2-alpine   # test against latest 2.x version of Ghost
@@ -30,22 +30,29 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
       - run:
-          name: Build Debug APK  # not a release build since Fabric API keys are not available in CI
+          # Not a release build since Fabric API keys are not available in CI
+          name: Build Debug APK
           command: ./gradlew assembleDebug -PdisablePreDex --console=plain
 
       - run:
           name: Setup Ghost
-          command: curl -vvvv --fail -d 'setup[0][name]=User' -d 'setup[0][email]=user@example.com' -d 'setup[0][password]=randomtestpwd' -d 'setup[0][blogTitle]=My Blog' http://localhost:2368/ghost/api/v0.1/authentication/setup/
+          command: |
+            curl -vvvv --fail \
+              -d 'setup[0][name]=User' \
+              -d 'setup[0][email]=user@example.com' \
+              -d 'setup[0][password]=randomtestpwd' \
+              -d 'setup[0][blogTitle]=My Blog' \
+              http://localhost:2368/ghost/api/v0.1/authentication/setup/
 
       - run:
           name: Run tests
           command: ./gradlew testDebug -PdisablePreDex --console=plain
 
-      # https://circleci.com/docs/2.0/configuration-reference/#store_artifacts
+      # circleci.com/docs/2.0/configuration-reference/#store_artifacts
       - store_artifacts:
           path: app/build/reports
           destination: reports
 
-      # https://circleci.com/docs/2.0/configuration-reference/#store_test_results
+      # circleci.com/docs/2.0/configuration-reference/#store_test_results
       - store_test_results:
           path: app/build/test-results
