@@ -37,14 +37,10 @@ jobs:
       - run:
           name: Setup Ghost
           command: |
-            random_password=$(
-              < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-16};echo;
-            )
-
             curl -vvvv --fail \
               -d 'setup[0][name]=User' \
               -d 'setup[0][email]=user@example.com' \
-              -d "setup[0][password]=$random_password" \
+              -d 'setup[0][password]=randomtestpwd' \
               -d 'setup[0][blogTitle]=My Blog' \
               http://localhost:2368/ghost/api/v0.1/authentication/setup/
 
