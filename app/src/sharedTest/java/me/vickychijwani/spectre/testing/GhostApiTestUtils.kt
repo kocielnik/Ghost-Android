@@ -11,7 +11,7 @@ import retrofit2.*
 const val TEST_BLOG = "10.0.2.2:2368"
 const val TEST_BLOG_WITH_PROTOCOL = "http://$TEST_BLOG"
 const val TEST_USER = "user@example.com"
-const val TEST_PWD = "randomtestpwd"
+const val TEST_PWD = "qOBAVqeFOeLu_1X-"
 
 // extension functions for the GhostApiService
 fun GhostApiService.deleteDefaultPosts() {
