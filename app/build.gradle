@@ -3,6 +3,7 @@ buildscript {
         jcenter()
         mavenCentral()
         maven { url 'https://maven.fabric.io/public' }
+        maven { url 'https://mvnrepository.com' }
     }
     dependencies {
         classpath 'io.realm:realm-gradle-plugin:2.3.1'
