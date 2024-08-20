@@ -3,7 +3,7 @@ buildscript {
         jcenter()
         mavenCentral()
         maven { url 'https://maven.fabric.io/public' }
-        maven { url 'https://mvnrepository.com' }
+        maven { url 'https://mirrors.huaweicloud.com/repository/maven' }
     }
     dependencies {
         classpath 'io.realm:realm-gradle-plugin:2.3.1'
