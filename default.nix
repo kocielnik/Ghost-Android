@@ -16,6 +16,7 @@ pkgs.mkShell {
     gradle
     openjdk
     kotlin
+    neovim
   ];
   LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive";
   # override the aapt2 that gradle uses with the nix-shipped version
