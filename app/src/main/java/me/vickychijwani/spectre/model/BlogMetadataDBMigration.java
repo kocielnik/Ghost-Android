@@ -18,7 +18,7 @@ public class BlogMetadataDBMigration implements io.realm.RealmMigration {
     private static final String TAG = BlogMetadataDBMigration.class.getSimpleName();
 
     @Override
-    public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
+    public void migrate(io.realm.DynamicRealm realm, long oldVersion, long newVersion) {
         RealmSchema schema = realm.getSchema();
         Log.i(TAG, "MIGRATING METADATA DB from v%d to v%d", oldVersion, newVersion);
 
@@ -33,7 +33,7 @@ public class BlogMetadataDBMigration implements io.realm.RealmMigration {
                         .isNull("slug")
                         .findAll();
                 Log.i(TAG, "CONVERTING %d SLUGS FROM NULL TO \"\"", postsWithNullSlug.size());
-                for (DynamicRealmObject obj : postsWithNullSlug) {
+                for (io.realm.DynamicRealmObject obj : postsWithNullSlug) {
                     obj.setString("slug", "");
                 }
                 // finally, make the field required
