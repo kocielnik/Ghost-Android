@@ -44,7 +44,7 @@ public final class RealmUtils {
 
         private static void changeFieldType(io.realm.RealmObjectSchema objectSchema, String fieldName,
                                      Class newType, @Nullable io.realm.FieldAttribute attribute,
-                                     Action3<DynamicRealmObject, String, String> transformation) {
+                                     Action3<io.realm.DynamicRealmObject, String, String> transformation) {
             String tempFieldName = fieldName + "_temp";
             if (attribute != null) {
                 if (attribute == io.realm.FieldAttribute.PRIMARY_KEY && objectSchema.hasPrimaryKey()) {
