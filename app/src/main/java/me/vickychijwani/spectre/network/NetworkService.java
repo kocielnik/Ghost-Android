@@ -103,7 +103,7 @@ public class NetworkService implements
     // number of posts to fetch
     private static final int POSTS_FETCH_LIMIT = 30;
 
-    private Realm mRealm = null;
+    private io.realm.Realm mRealm = null;
     private GhostApiService mApi = null;
     private AuthToken mAuthToken = null;
     private AuthService mAuthService = null;
@@ -122,7 +122,7 @@ public class NetworkService implements
                     .create(GhostApiService.class);
             setApiService(activeBlog.getBlogUrl(), api);
 
-            mRealm = Realm.getInstance(activeBlog.getDataRealmConfig());
+            mRealm = io.realm.Realm.getInstance(activeBlog.getDataRealmConfig());
             mAuthToken = new AuthToken(mRealm.where(AuthToken.class).findFirst());
         }
     }
@@ -157,7 +157,7 @@ public class NetworkService implements
     public void onNewLogin(String blogUrl, AuthToken authToken) {
         AccountManager.setActiveBlog(blogUrl);
         BlogMetadata activeBlog = AccountManager.getActiveBlog();
-        mRealm = Realm.getInstance(activeBlog.getDataRealmConfig());
+        mRealm = io.realm.Realm.getInstance(activeBlog.getDataRealmConfig());
         onNewAuthToken(authToken);
     }
 
@@ -892,14 +892,14 @@ public class NetworkService implements
 
         // clear all persisted blog data to avoid primary key conflicts
         mRealm.close();
-        Realm.deleteRealm(mRealm.getConfiguration());
+        io.realm.Realm.deleteRealm(mRealm.getConfiguration());
         String activeBlogUrl = AccountManager.getActiveBlogUrl();
         new AuthStore().deleteCredentials(activeBlogUrl);
         AccountManager.deleteBlog(activeBlogUrl);
 
         // switch the Realm to the now-active blog
         if (AccountManager.hasActiveBlog()) {
-            mRealm = Realm.getInstance(AccountManager.getActiveBlog().getDataRealmConfig());
+            mRealm = io.realm.Realm.getInstance(AccountManager.getActiveBlog().getDataRealmConfig());
         }
 
         // reset state, to be sure
