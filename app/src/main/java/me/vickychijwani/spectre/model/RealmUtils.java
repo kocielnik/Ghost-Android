@@ -14,7 +14,7 @@ public final class RealmUtils {
 
     private static final String TAG = "RealmUtils";
 
-    public static void executeTransaction(@NonNull Realm realm,
+    public static void executeTransaction(@NonNull io.realm.Realm realm,
                                                @NonNull RealmTransaction transaction) {
         executeTransaction(realm, r -> {
             transaction.execute(r);
@@ -22,7 +22,7 @@ public final class RealmUtils {
         });
     }
 
-    public static <T> T executeTransaction(@NonNull Realm realm,
+    public static <T> T executeTransaction(@NonNull io.realm.Realm realm,
                                            @NonNull RealmTransactionWithReturn<T> transaction) {
         T retValue;
         realm.beginTransaction();
@@ -68,11 +68,11 @@ public final class RealmUtils {
 
 
     public interface RealmTransaction {
-        void execute(@NonNull Realm realm);
+        void execute(@NonNull io.realm.Realm realm);
     }
 
     public interface RealmTransactionWithReturn<T> {
-        T execute(@NonNull Realm realm);
+        T execute(@NonNull io.realm.Realm realm);
     }
 
 }
