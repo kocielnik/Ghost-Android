@@ -11,7 +11,7 @@ import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
 @io.realm.annotations.RealmClass
-public class ETag extends RealmObject {
+public class ETag extends io.realm.RealmObject {
 
     @Retention(RetentionPolicy.SOURCE)
     @StringDef({ TYPE_ALL_POSTS, TYPE_CURRENT_USER, TYPE_BLOG_SETTINGS, TYPE_CONFIGURATION })

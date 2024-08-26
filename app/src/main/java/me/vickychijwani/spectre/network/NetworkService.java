@@ -920,7 +920,7 @@ public class NetworkService implements
             // make a copy since the original is a live-updating io.realm.RealmList
             List<PendingAction> pendingActionsCopy = new ArrayList<>(pendingActions);
             for (PendingAction pa : pendingActionsCopy) {
-                RealmObject.deleteFromRealm(pa);
+                io.realm.RealmObject.deleteFromRealm(pa);
             }
             pendingActions.clear();
             post.addPendingAction(newPendingAction);
@@ -1063,7 +1063,7 @@ public class NetworkService implements
 
     private <T extends io.realm.RealmModel> void deleteModel(T realmObject) {
         RealmUtils.executeTransaction(mRealm, realm -> {
-            RealmObject.deleteFromRealm(realmObject);
+            io.realm.RealmObject.deleteFromRealm(realmObject);
         });
     }
 
@@ -1073,7 +1073,7 @@ public class NetworkService implements
         }
         RealmUtils.executeTransaction(mRealm, realm -> {
             for (T realmObject : realmObjects) {
-                RealmObject.deleteFromRealm(realmObject);
+                io.realm.RealmObject.deleteFromRealm(realmObject);
             }
         });
     }
