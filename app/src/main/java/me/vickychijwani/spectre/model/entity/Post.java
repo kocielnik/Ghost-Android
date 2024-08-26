@@ -20,7 +20,7 @@ import me.vickychijwani.spectre.model.GsonExclude;
 import me.vickychijwani.spectre.network.GhostApiUtils;
 import me.vickychijwani.spectre.util.DateTimeUtils;
 
-@RealmClass
+@io.realm.annotations.RealmClass
 public class Post implements RealmModel, Parcelable {
 
     @Retention(RetentionPolicy.SOURCE)

@@ -5,7 +5,7 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
-@RealmClass
+@io.realm.annotations.RealmClass
 public class Setting implements RealmModel {
 
     @PrimaryKey

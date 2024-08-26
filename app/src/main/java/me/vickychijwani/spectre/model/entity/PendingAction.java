@@ -11,7 +11,7 @@ import io.realm.RealmModel;
 import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
-@RealmClass
+@io.realm.annotations.RealmClass
 public class PendingAction implements RealmModel, Parcelable {
 
     public static final String CREATE = "pendingaction:create";

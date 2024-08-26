@@ -7,7 +7,7 @@ import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
 @SuppressWarnings("unused")
-@RealmClass
+@io.realm.annotations.RealmClass
 public class User implements RealmModel {
 
     @PrimaryKey
