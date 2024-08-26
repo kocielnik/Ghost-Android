@@ -82,7 +82,7 @@ public final class AccountManager {
         // keep a copy of the metadata around so we can delete the data Realm after this
         final Realm realm = Realm.getDefaultInstance();
         BlogMetadata blogToDelete = matchingBlogs.get(0);
-        RealmConfiguration dataRealmToDelete = realm.copyFromRealm(blogToDelete).getDataRealmConfig();
+        io.realm.RealmConfiguration dataRealmToDelete = realm.copyFromRealm(blogToDelete).getDataRealmConfig();
         RealmUtils.executeTransaction(realm, r -> {
             RealmObject.deleteFromRealm(blogToDelete);
         });
