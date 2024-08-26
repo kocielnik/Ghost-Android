@@ -28,7 +28,7 @@ public class BlogMetadataDBMigration implements RealmMigration {
         if (oldVersion == 0) {
             if (schema.get("Post").isNullable("slug")) {
                 // get rid of null-valued slugs, if any exist
-                RealmResults<DynamicRealmObject> postsWithNullSlug = realm
+                io.realm.RealmResults<DynamicRealmObject> postsWithNullSlug = realm
                         .where(Post.class.getSimpleName())
                         .isNull("slug")
                         .findAll();
@@ -67,7 +67,7 @@ public class BlogMetadataDBMigration implements RealmMigration {
         if (oldVersion == 1) {
             // delete all etags, so the info can be fetched and stored
             // again, with role-based permissions enforced
-            RealmResults<DynamicRealmObject> allEtags = realm
+            io.realm.RealmResults<DynamicRealmObject> allEtags = realm
                     .where(ETag.class.getSimpleName())
                     .equalTo("type", ETag.TYPE_CURRENT_USER)
                     .or()

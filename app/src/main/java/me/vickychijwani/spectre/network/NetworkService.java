@@ -248,7 +248,7 @@ public class NetworkService implements
     @Subscribe
     public void onLoadUserEvent(final LoadUserEvent event) {
         if (event.loadCachedData || ! event.forceNetworkCall) {
-            RealmResults<User> users = mRealm.where(User.class).findAll();
+            io.realm.RealmResults<User> users = mRealm.where(User.class).findAll();
             if (users.size() > 0) {
                 getBus().post(new UserLoadedEvent(users.first()));
                 refreshSucceeded(event);
@@ -273,7 +273,7 @@ public class NetworkService implements
                     refreshSucceeded(event);
                 } else {
                     // fallback to cached data
-                    RealmResults<User> users = mRealm.where(User.class).findAll();
+                    io.realm.RealmResults<User> users = mRealm.where(User.class).findAll();
                     if (users.size() > 0) {
                         getBus().post(new UserLoadedEvent(users.first()));
                     }
@@ -304,7 +304,7 @@ public class NetworkService implements
     @Subscribe
     public void onLoadBlogSettingsEvent(final LoadBlogSettingsEvent event) {
         if (event.loadCachedData || ! event.forceNetworkCall) {
-            RealmResults<Setting> settings = mRealm.where(Setting.class).findAll();
+            io.realm.RealmResults<Setting> settings = mRealm.where(Setting.class).findAll();
             if (settings.size() > 0) {
                 getBus().post(new BlogSettingsLoadedEvent(settings));
                 refreshSucceeded(event);
@@ -327,7 +327,7 @@ public class NetworkService implements
                     refreshSucceeded(event);
                 } else {
                     // fallback to cached data
-                    RealmResults<Setting> settings = mRealm.where(Setting.class).findAll();
+                    io.realm.RealmResults<Setting> settings = mRealm.where(Setting.class).findAll();
                     if (settings.size() > 0) {
                         getBus().post(new BlogSettingsLoadedEvent(settings));
                     }
@@ -369,7 +369,7 @@ public class NetworkService implements
             }
         }
 
-        RealmResults<User> users = mRealm.where(User.class).findAll();
+        io.realm.RealmResults<User> users = mRealm.where(User.class).findAll();
         if (users.size() == 0) {
             return;
         }
@@ -398,7 +398,7 @@ public class NetworkService implements
                     deleteModels(deletedPosts);
 
                     // skip edited posts because they've not yet been uploaded
-                    RealmResults<Post> localOnlyEdits = mRealm.where(Post.class)
+                    io.realm.RealmResults<Post> localOnlyEdits = mRealm.where(Post.class)
                             .in("pendingActions.type", new String[] {
                                     PendingAction.EDIT_LOCAL,
                                     PendingAction.EDIT
@@ -866,7 +866,7 @@ public class NetworkService implements
 
     @Subscribe
     public void onLoadTagsEvent(LoadTagsEvent event) {
-        RealmResults<Tag> tags = mRealm.where(Tag.class).findAllSorted("name");
+        io.realm.RealmResults<Tag> tags = mRealm.where(Tag.class).findAllSorted("name");
         List<Tag> tagsCopy = new ArrayList<>(tags.size());
         for (Tag tag : tags) {
             tagsCopy.add(new Tag(tag.getName()));
@@ -979,7 +979,7 @@ public class NetworkService implements
 
     private List<Post> getPostsSorted() {
         // FIXME time complexity O(n) for copying + O(n log n) for sorting!
-        RealmResults<Post> realmPosts = mRealm.where(Post.class).findAll();
+        io.realm.RealmResults<Post> realmPosts = mRealm.where(Post.class).findAll();
         List<Post> unmanagedPosts = copyPosts(realmPosts);
         Collections.sort(unmanagedPosts, PostUtils.COMPARATOR_MAIN_LIST);
         return unmanagedPosts;
@@ -1000,7 +1000,7 @@ public class NetworkService implements
     }
 
     private void removeEtag(@ETag.Type String etagType) {
-        RealmResults<ETag> etags = mRealm.where(ETag.class).equalTo("type", etagType).findAll();
+        io.realm.RealmResults<ETag> etags = mRealm.where(ETag.class).equalTo("type", etagType).findAll();
         if (etags.size() > 0) {
             deleteModel(etags.first());
         }
