@@ -80,10 +80,10 @@ public class BlogMetadataDBMigration implements io.realm.RealmMigration {
                 // create the Role table
                 Log.i(TAG, "CREATING ROLE TABLE");
                 schema.create("Role")
-                        .addField("id", Integer.class, FieldAttribute.PRIMARY_KEY)
-                        .addField("uuid", String.class, FieldAttribute.REQUIRED)
-                        .addField("name", String.class, FieldAttribute.REQUIRED)
-                        .addField("description", String.class, FieldAttribute.REQUIRED);
+                        .addField("id", Integer.class, io.realm.FieldAttribute.PRIMARY_KEY)
+                        .addField("uuid", String.class, io.realm.FieldAttribute.REQUIRED)
+                        .addField("name", String.class, io.realm.FieldAttribute.REQUIRED)
+                        .addField("description", String.class, io.realm.FieldAttribute.REQUIRED);
             }
 
             if (!schema.get("User").hasField("roles")) {
@@ -96,7 +96,7 @@ public class BlogMetadataDBMigration implements io.realm.RealmMigration {
         if (oldVersion == 2) {
             if (!schema.get("Post").hasField("conflictState")) {
                 Log.i(TAG, "ADDING CONFLICT STATE FIELD TO POST TABLE");
-                schema.get("Post").addField("conflictState", String.class, FieldAttribute.REQUIRED);
+                schema.get("Post").addField("conflictState", String.class, io.realm.FieldAttribute.REQUIRED);
             }
             ++oldVersion;
         }

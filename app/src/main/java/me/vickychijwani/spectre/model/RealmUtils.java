@@ -43,11 +43,11 @@ public final class RealmUtils {
     public static final class Migration {
 
         private static void changeFieldType(io.realm.RealmObjectSchema objectSchema, String fieldName,
-                                     Class newType, @Nullable FieldAttribute attribute,
+                                     Class newType, @Nullable io.realm.FieldAttribute attribute,
                                      Action3<DynamicRealmObject, String, String> transformation) {
             String tempFieldName = fieldName + "_temp";
             if (attribute != null) {
-                if (attribute == FieldAttribute.PRIMARY_KEY && objectSchema.hasPrimaryKey()) {
+                if (attribute == io.realm.FieldAttribute.PRIMARY_KEY && objectSchema.hasPrimaryKey()) {
                     // remove existing primary key
                     objectSchema.removePrimaryKey();
                 }
