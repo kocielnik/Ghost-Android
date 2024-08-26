@@ -40,7 +40,7 @@ public class Post implements io.realm.RealmModel, Parcelable {
 
     public static final String DEFAULT_TITLE = "(Untitled)";
 
-    @PrimaryKey
+    @io.realm.annotations.PrimaryKey
     private String id;
 
     private String uuid = null;

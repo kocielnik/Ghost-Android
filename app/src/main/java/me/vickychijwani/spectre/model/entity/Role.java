@@ -8,7 +8,7 @@ import io.realm.annotations.Required;
 @io.realm.annotations.RealmClass
 public class Role implements io.realm.RealmModel {
 
-    @PrimaryKey
+    @io.realm.annotations.PrimaryKey
     private String id;
 
     @Required

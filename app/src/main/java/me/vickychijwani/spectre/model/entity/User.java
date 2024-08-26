@@ -10,7 +10,7 @@ import io.realm.annotations.Required;
 @io.realm.annotations.RealmClass
 public class User implements io.realm.RealmModel {
 
-    @PrimaryKey
+    @io.realm.annotations.PrimaryKey
     private String id;
 
     @Required

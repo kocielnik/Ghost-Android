@@ -15,7 +15,7 @@ import static me.vickychijwani.spectre.model.DBConfiguration.DATA_DB_SCHEMA_VERS
 @io.realm.annotations.RealmClass
 public class BlogMetadata implements io.realm.RealmModel {
 
-    @PrimaryKey
+    @io.realm.annotations.PrimaryKey
     private String blogUrl;
 
     // may be false if, e.g., the OAuth code is known to be expired, in which case the user would
