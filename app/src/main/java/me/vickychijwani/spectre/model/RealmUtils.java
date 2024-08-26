@@ -42,7 +42,7 @@ public final class RealmUtils {
 
     public static final class Migration {
 
-        private static void changeFieldType(RealmObjectSchema objectSchema, String fieldName,
+        private static void changeFieldType(io.realm.RealmObjectSchema objectSchema, String fieldName,
                                      Class newType, @Nullable FieldAttribute attribute,
                                      Action3<DynamicRealmObject, String, String> transformation) {
             String tempFieldName = fieldName + "_temp";
