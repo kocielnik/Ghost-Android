@@ -5,7 +5,7 @@ import me.vickychijwani.spectre.model.entity.BlogMetadata;
 
 // set of classes included in the schema for blog metadata Realm
 
-@RealmModule(classes = {
+@io.realm.annotations.RealmModule(classes = {
         BlogMetadata.class
 })
 public class BlogMetadataModule {}

@@ -13,7 +13,7 @@ import me.vickychijwani.spectre.model.entity.User;
 
 // set of classes included in the schema for blog data Realms
 
-@RealmModule(classes = {
+@io.realm.annotations.RealmModule(classes = {
         AuthToken.class,
         ConfigurationParam.class,
         ETag.class,
