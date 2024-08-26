@@ -5,7 +5,7 @@ import io.realm.RealmMigration;
 import io.realm.RealmSchema;
 import me.vickychijwani.spectre.util.log.Log;
 
-public class BlogDBMigration implements RealmMigration {
+public class BlogDBMigration implements io.realm.RealmMigration {
 
     private static final String TAG = BlogMetadataDBMigration.class.getSimpleName();
 

@@ -13,7 +13,7 @@ import me.vickychijwani.spectre.pref.AppState;
 import me.vickychijwani.spectre.pref.UserPrefs;
 import me.vickychijwani.spectre.util.log.Log;
 
-public class BlogMetadataDBMigration implements RealmMigration {
+public class BlogMetadataDBMigration implements io.realm.RealmMigration {
 
     private static final String TAG = BlogMetadataDBMigration.class.getSimpleName();
 
