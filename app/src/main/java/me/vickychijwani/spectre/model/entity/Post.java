@@ -21,7 +21,7 @@ import me.vickychijwani.spectre.network.GhostApiUtils;
 import me.vickychijwani.spectre.util.DateTimeUtils;
 
 @io.realm.annotations.RealmClass
-public class Post implements RealmModel, Parcelable {
+public class Post implements io.realm.RealmModel, Parcelable {
 
     @Retention(RetentionPolicy.SOURCE)
     @StringDef({ DRAFT, SCHEDULED, PUBLISHED })

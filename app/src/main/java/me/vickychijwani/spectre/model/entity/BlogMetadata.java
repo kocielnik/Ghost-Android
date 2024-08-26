@@ -13,7 +13,7 @@ import me.vickychijwani.spectre.model.BlogDataModule;
 import static me.vickychijwani.spectre.model.DBConfiguration.DATA_DB_SCHEMA_VERSION;
 
 @io.realm.annotations.RealmClass
-public class BlogMetadata implements RealmModel {
+public class BlogMetadata implements io.realm.RealmModel {
 
     @PrimaryKey
     private String blogUrl;

@@ -6,7 +6,7 @@ import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
 @io.realm.annotations.RealmClass
-public class Setting implements RealmModel {
+public class Setting implements io.realm.RealmModel {
 
     @PrimaryKey
     private String id;

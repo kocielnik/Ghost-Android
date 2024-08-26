@@ -13,7 +13,7 @@ import io.realm.annotations.Required;
 
 @SuppressWarnings("unused")
 @io.realm.annotations.RealmClass
-public class Tag implements RealmModel, Parcelable {
+public class Tag implements io.realm.RealmModel, Parcelable {
 
     @PrimaryKey
     private String id = null;

@@ -1012,7 +1012,7 @@ public class NetworkService implements
      * you'll get the same id twice!</b>
      */
     @NonNull
-    private <T extends RealmModel> String getTempUniqueId(Class<T> clazz) {
+    private <T extends io.realm.RealmModel> String getTempUniqueId(Class<T> clazz) {
         int tempId = Integer.MAX_VALUE;
         while (mRealm.where(clazz).equalTo("id", String.valueOf(tempId)).findAll().size() > 0) {
             --tempId;
@@ -1028,11 +1028,11 @@ public class NetworkService implements
         return copied;
     }
 
-    private <T extends RealmModel> T createOrUpdateModel(T object) {
+    private <T extends io.realm.RealmModel> T createOrUpdateModel(T object) {
         return createOrUpdateModel(object, null);
     }
 
-    private <T extends RealmModel> T createOrUpdateModel(T object,
+    private <T extends io.realm.RealmModel> T createOrUpdateModel(T object,
                                                          @Nullable Runnable afterTransaction) {
         return RealmUtils.executeTransaction(mRealm, realm -> {
             T realmObject = mRealm.copyToRealmOrUpdate(object);
@@ -1043,11 +1043,11 @@ public class NetworkService implements
         });
     }
 
-    private <T extends RealmModel> List<T> createOrUpdateModel(Iterable<T> objects) {
+    private <T extends io.realm.RealmModel> List<T> createOrUpdateModel(Iterable<T> objects) {
         return createOrUpdateModel(objects, null);
     }
 
-    private <T extends RealmModel> List<T> createOrUpdateModel(Iterable<T> objects,
+    private <T extends io.realm.RealmModel> List<T> createOrUpdateModel(Iterable<T> objects,
                                                                @Nullable Runnable afterTransaction) {
         if (! objects.iterator().hasNext()) {
             return Collections.emptyList();
@@ -1061,13 +1061,13 @@ public class NetworkService implements
         });
     }
 
-    private <T extends RealmModel> void deleteModel(T realmObject) {
+    private <T extends io.realm.RealmModel> void deleteModel(T realmObject) {
         RealmUtils.executeTransaction(mRealm, realm -> {
             RealmObject.deleteFromRealm(realmObject);
         });
     }
 
-    private <T extends RealmModel> void deleteModels(Iterable<T> realmObjects) {
+    private <T extends io.realm.RealmModel> void deleteModels(Iterable<T> realmObjects) {
         if (! realmObjects.iterator().hasNext()) {
             return;
         }
