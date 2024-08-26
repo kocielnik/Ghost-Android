@@ -25,7 +25,7 @@ public class User implements io.realm.RealmModel {
     private String profileImage;
     private String bio;
 
-    private RealmList<Role> roles;
+    private io.realm.RealmList<Role> roles;
 
     // accessors
     public String getId() {
@@ -76,7 +76,7 @@ public class User implements io.realm.RealmModel {
         this.bio = bio;
     }
 
-    public RealmList<Role> getRoles() {
+    public io.realm.RealmList<Role> getRoles() {
         return roles;
     }
 

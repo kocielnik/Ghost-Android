@@ -815,7 +815,7 @@ public class PostEditFragment extends BaseFragment implements
     public interface PostSettingsManager {
         void setOnPostSettingsChangedListener(PostViewActivity.PostSettingsChangedListener listener);
         void removeOnPostSettingsChangedListener();
-        RealmList<Tag> getTags();
+        io.realm.RealmList<Tag> getTags();
         String getCustomExcerpt();
         boolean isFeatured();
         boolean isPage();

@@ -917,7 +917,7 @@ public class NetworkService implements
     private void clearAndSetPendingActionOnPost(@NonNull Post post, @PendingAction.Type String newPendingAction) {
         List<PendingAction> pendingActions = post.getPendingActions();
         mRealm.executeTransaction(realm -> {
-            // make a copy since the original is a live-updating RealmList
+            // make a copy since the original is a live-updating io.realm.RealmList
             List<PendingAction> pendingActionsCopy = new ArrayList<>(pendingActions);
             for (PendingAction pa : pendingActionsCopy) {
                 RealmObject.deleteFromRealm(pa);

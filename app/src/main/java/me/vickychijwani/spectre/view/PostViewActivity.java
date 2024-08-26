@@ -500,8 +500,8 @@ public class PostViewActivity extends BaseActivity implements
     }
 
     @Override
-    public RealmList<Tag> getTags() {
-        RealmList<Tag> tags = new RealmList<>();
+    public io.realm.RealmList<Tag> getTags() {
+        io.realm.RealmList<Tag> tags = new io.realm.RealmList<>();
         List<String> tagStrs = mPostTagsEditText.getTokens();
         for (String tagStr : tagStrs) {
             tags.add(new Tag(tagStr));

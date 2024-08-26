@@ -58,7 +58,7 @@ public class Post implements io.realm.RealmModel, Parcelable {
 
     private String html = "";
 
-    private RealmList<Tag> tags;
+    private io.realm.RealmList<Tag> tags;
 
     private String featureImage = null;
     private boolean featured = false;
@@ -87,7 +87,7 @@ public class Post implements io.realm.RealmModel, Parcelable {
     // NOTE: default values for these fields will be assigned to all serialized Posts (because they
     // are not touched by Retrofit), so don't assign any defaults specific to new posts here!
     @GsonExclude
-    private RealmList<PendingAction> pendingActions = new RealmList<>();
+    private io.realm.RealmList<PendingAction> pendingActions = new io.realm.RealmList<>();
 
     @Required @GsonExclude @ConflictState
     private String conflictState = CONFLICT_NONE;
@@ -105,7 +105,7 @@ public class Post implements io.realm.RealmModel, Parcelable {
         this.setHtml(post.getHtml());
 
         List<Tag> realmTags = post.getTags();
-        RealmList<Tag> unmanagedTags = new RealmList<>();
+        io.realm.RealmList<Tag> unmanagedTags = new io.realm.RealmList<>();
         for (Tag realmTag : realmTags) {
             unmanagedTags.add(new Tag(realmTag));
         }
@@ -235,7 +235,7 @@ public class Post implements io.realm.RealmModel, Parcelable {
         this.status = in.readString();
         this.mobiledoc = in.readString();
         this.html = in.readString();
-        this.tags = new RealmList<>();
+        this.tags = new io.realm.RealmList<>();
         in.readList(this.tags, Tag.class.getClassLoader());
         this.featureImage = in.readString();
         this.featured = in.readByte() != 0;
@@ -254,7 +254,7 @@ public class Post implements io.realm.RealmModel, Parcelable {
         this.metaTitle = in.readString();
         this.metaDescription = in.readString();
         this.customExcerpt = in.readString();
-        this.pendingActions = new RealmList<>();
+        this.pendingActions = new io.realm.RealmList<>();
         in.readList(this.pendingActions, PendingAction.class.getClassLoader());
         //noinspection WrongConstant
         this.conflictState = in.readString();
@@ -347,7 +347,7 @@ public class Post implements io.realm.RealmModel, Parcelable {
         this.html = html;
     }
 
-    public RealmList<Tag> getTags() {
+    public io.realm.RealmList<Tag> getTags() {
      return tags;
     }
 
@@ -467,7 +467,7 @@ public class Post implements io.realm.RealmModel, Parcelable {
         this.customExcerpt = customExcerpt;
     }
 
-    public RealmList<PendingAction> getPendingActions() {
+    public io.realm.RealmList<PendingAction> getPendingActions() {
         return pendingActions;
     }
 
