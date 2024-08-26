@@ -45,13 +45,13 @@ public class Post implements io.realm.RealmModel, Parcelable {
 
     private String uuid = null;
 
-    @Required
+    @io.realm.annotations.Required
     private String title = DEFAULT_TITLE;
 
-    @Required
+    @io.realm.annotations.Required
     private String slug = "";
 
-    @Required @Status
+    @io.realm.annotations.Required @Status
     private String status = DRAFT;
 
     private String mobiledoc = "";
@@ -64,7 +64,7 @@ public class Post implements io.realm.RealmModel, Parcelable {
     private boolean featured = false;
     private boolean page = false;
 
-    @Required
+    @io.realm.annotations.Required
     private String language = "en_US";
 
     private String author;
@@ -75,7 +75,7 @@ public class Post implements io.realm.RealmModel, Parcelable {
     private Date createdAt = null;
     private Date publishedAt = DateTimeUtils.FAR_FUTURE;  // so that locally-created posts will be sorted to the top
 
-    @Required
+    @io.realm.annotations.Required
     private Date updatedAt = DateTimeUtils.FAR_FUTURE;  // so that locally-created posts will be sorted to the top
 
     private String metaTitle = "";
@@ -89,7 +89,7 @@ public class Post implements io.realm.RealmModel, Parcelable {
     @GsonExclude
     private io.realm.RealmList<PendingAction> pendingActions = new io.realm.RealmList<>();
 
-    @Required @GsonExclude @ConflictState
+    @io.realm.annotations.Required @GsonExclude @ConflictState
     private String conflictState = CONFLICT_NONE;
 
     public Post() {}

@@ -22,7 +22,7 @@ public class BlogMetadata implements io.realm.RealmModel {
     // need to log in again
     private boolean loggedIn = true;
 
-    // email and password are not @Required because they are absent in case of Ghost Auth
+    // email and password are not @io.realm.annotations.Required because they are absent in case of Ghost Auth
     private String email = null;
 
     private String password = null;

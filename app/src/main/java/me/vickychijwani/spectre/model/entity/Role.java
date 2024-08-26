@@ -11,7 +11,7 @@ public class Role implements io.realm.RealmModel {
     @io.realm.annotations.PrimaryKey
     private String id;
 
-    @Required
+    @io.realm.annotations.Required
     private String name;
 
     private String description;

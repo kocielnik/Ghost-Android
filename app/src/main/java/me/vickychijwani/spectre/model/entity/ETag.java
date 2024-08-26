@@ -25,7 +25,7 @@ public class ETag extends io.realm.RealmObject {
     @io.realm.annotations.PrimaryKey
     private String type;
 
-    @Required
+    @io.realm.annotations.Required
     private String tag;
 
     @SuppressWarnings("unused")

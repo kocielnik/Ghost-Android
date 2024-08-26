@@ -13,13 +13,13 @@ public class User implements io.realm.RealmModel {
     @io.realm.annotations.PrimaryKey
     private String id;
 
-    @Required
+    @io.realm.annotations.Required
     private String name;
 
-    @Required
+    @io.realm.annotations.Required
     private String slug;
 
-    @Required
+    @io.realm.annotations.Required
     private String email;
 
     private String profileImage;

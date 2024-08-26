@@ -13,10 +13,10 @@ public class AuthToken implements io.realm.RealmModel {
     @io.realm.annotations.PrimaryKey   // intentional; there should only ever be one auth token
     private String tokenType = "Bearer";
 
-    @Required
+    @io.realm.annotations.Required
     private String accessToken;
 
-    @Required
+    @io.realm.annotations.Required
     private String refreshToken;
 
     private int expiresIn;

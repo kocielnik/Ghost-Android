@@ -25,7 +25,7 @@ public class PendingAction implements io.realm.RealmModel, Parcelable {
     @Retention(RetentionPolicy.SOURCE)
     public @interface Type {}
 
-    @Type @Required
+    @Type @io.realm.annotations.Required
     private String type;
 
     @SuppressWarnings("unused")

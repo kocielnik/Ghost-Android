@@ -18,7 +18,7 @@ public class Tag implements io.realm.RealmModel, Parcelable {
     @io.realm.annotations.PrimaryKey
     private String id = null;
 
-    @Required
+    @io.realm.annotations.Required
     private String name;
 
     private String slug = null;
