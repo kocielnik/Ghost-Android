@@ -5,8 +5,8 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
-@RealmClass
-public class ConfigurationParam implements RealmModel {
+@io.realm.annotations.RealmClass
+public class ConfigurationParam implements io.realm.RealmModel {
 
     @PrimaryKey
     private String key;
