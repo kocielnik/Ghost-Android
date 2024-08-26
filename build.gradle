@@ -5,6 +5,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven { url 'https://mirrors.huaweicloud.com/repository/maven' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.3'
