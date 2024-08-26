@@ -74,7 +74,7 @@ import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
 import permissions.dispatcher.RuntimePermissions;
 
-@RuntimePermissions
+@permissions.dispatcher.RuntimePermissions
 public class PostEditFragment extends BaseFragment implements
         FormatOptionClickListener {
 
@@ -410,7 +410,7 @@ public class PostEditFragment extends BaseFragment implements
     }
 
     @SuppressLint("InlinedApi") // suppressed because PermissionsDispatcher handles API levels for us
-    @NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+    @permissions.dispatcher.NeedsPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
     public void onInsertImageUploadClicked(Action1<String> uploadDoneAction) {
         if (! NetworkUtils.isConnected(getActivity())) {
             Toast.makeText(getActivity(), R.string.no_internet_connection, Toast.LENGTH_SHORT).show();
@@ -428,13 +428,13 @@ public class PostEditFragment extends BaseFragment implements
     }
 
     @SuppressLint("InlinedApi") // suppressed because PermissionsDispatcher handles API levels for us
-    @OnPermissionDenied(Manifest.permission.READ_EXTERNAL_STORAGE)
+    @permissions.dispatcher.OnPermissionDenied(Manifest.permission.READ_EXTERNAL_STORAGE)
     void onStoragePermissionDenied() {
         Toast.makeText(mActivity, R.string.image_upload_failed, Toast.LENGTH_SHORT).show();
     }
 
     @SuppressLint("InlinedApi") // suppressed because PermissionsDispatcher handles API levels for us
-    @OnNeverAskAgain(Manifest.permission.READ_EXTERNAL_STORAGE)
+    @permissions.dispatcher.OnNeverAskAgain(Manifest.permission.READ_EXTERNAL_STORAGE)
     void onStoragePermissionPermanentlyDenied() {
         Toast.makeText(mActivity, R.string.enable_permission_tip, Toast.LENGTH_LONG).show();
         AppUtils.showSystemAppSettingsActivity(mActivity);
