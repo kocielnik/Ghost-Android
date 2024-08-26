@@ -80,7 +80,7 @@ public class User implements io.realm.RealmModel {
         return roles;
     }
 
-    public void setRoles(RealmList<Role> roles) {
+    public void setRoles(io.realm.RealmList<Role> roles) {
         this.roles = roles;
     }
 

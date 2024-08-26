@@ -351,7 +351,7 @@ public class Post implements io.realm.RealmModel, Parcelable {
      return tags;
     }
 
-    public void setTags(RealmList<Tag> tags) {
+    public void setTags(io.realm.RealmList<Tag> tags) {
         this.tags = tags;
     }
 
@@ -471,7 +471,7 @@ public class Post implements io.realm.RealmModel, Parcelable {
         return pendingActions;
     }
 
-    public void setPendingActions(RealmList<PendingAction> pendingActions) {
+    public void setPendingActions(io.realm.RealmList<PendingAction> pendingActions) {
         this.pendingActions = pendingActions;
     }
 
