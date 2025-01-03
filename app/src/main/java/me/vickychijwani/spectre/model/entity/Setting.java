@@ -14,6 +14,7 @@ public class Setting implements RealmModel {
     @Required
     private String key;
 
+    @Required
     private String value;
 
     public String getId() {

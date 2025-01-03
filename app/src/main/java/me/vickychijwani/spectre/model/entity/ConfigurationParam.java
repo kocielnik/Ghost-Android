@@ -11,6 +11,7 @@ public class ConfigurationParam implements RealmModel {
     @PrimaryKey
     private String key;
 
+    @Required
     private String value;
 
     public ConfigurationParam() {}

@@ -34,8 +34,6 @@ import me.vickychijwani.spectre.util.DeviceUtils;
 import me.vickychijwani.spectre.util.NetworkUtils;
 import me.vickychijwani.spectre.util.PostUtils;
 
-import static me.vickychijwani.spectre.util.NetworkUtils.makePicassoUrl;
-
 class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_POST = 1;
@@ -153,7 +151,7 @@ class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void bindPost(PostViewHolder viewHolder, Post post) {
         viewHolder.title.setText(post.getTitle());
         if (! TextUtils.isEmpty(post.getFeatureImage())) {
-            String imageUrl = makePicassoUrl(mBlogUrl, post.getFeatureImage());
+            String imageUrl = NetworkUtils.makeAbsoluteUrl(mBlogUrl, post.getFeatureImage());
             viewHolder.image.setVisibility(View.VISIBLE);
             mPicasso.load(imageUrl)
                     .fit().centerCrop()

@@ -710,7 +710,7 @@ public class PostEditFragment extends BaseFragment implements
     }
 
     @Subscribe
-    public void onPostSyncedEvent(PostSyncedEvent ignored) {
+    public void onPostSyncedEvent(PostSyncedEvent _) {
         SaveScenario saveScenario = mSaveScenario;
         mSaveScenario = SaveScenario.UNKNOWN;
         mHandler.removeCallbacks(mSaveTimeoutRunnable);
