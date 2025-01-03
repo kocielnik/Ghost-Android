@@ -30,11 +30,6 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
       - run:
-          # Not a release build since Fabric API keys are not available in CI
-          name: Build Debug APK
-          command: ./gradlew assembleDebug -PdisablePreDex --console=plain
-
-      - run:
           name: Setup Ghost
           command: |
             curl -vvvv --fail \
