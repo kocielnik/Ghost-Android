@@ -7,16 +7,16 @@ import io.realm.annotations.Required;
 import me.vickychijwani.spectre.util.DateTimeUtils;
 
 @SuppressWarnings("unused")
-@io.realm.annotations.RealmClass
-public class AuthToken implements io.realm.RealmModel {
+@RealmClass
+public class AuthToken implements RealmModel {
 
-    @io.realm.annotations.PrimaryKey   // intentional; there should only ever be one auth token
+    @PrimaryKey   // intentional; there should only ever be one auth token
     private String tokenType = "Bearer";
 
-    @io.realm.annotations.Required
+    @Required
     private String accessToken;
 
-    @io.realm.annotations.Required
+    @Required
     private String refreshToken;
 
     private int expiresIn;

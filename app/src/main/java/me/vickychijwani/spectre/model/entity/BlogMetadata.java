@@ -12,17 +12,17 @@ import me.vickychijwani.spectre.model.BlogDataModule;
 
 import static me.vickychijwani.spectre.model.DBConfiguration.DATA_DB_SCHEMA_VERSION;
 
-@io.realm.annotations.RealmClass
-public class BlogMetadata implements io.realm.RealmModel {
+@RealmClass
+public class BlogMetadata implements RealmModel {
 
-    @io.realm.annotations.PrimaryKey
+    @PrimaryKey
     private String blogUrl;
 
     // may be false if, e.g., the OAuth code is known to be expired, in which case the user would
     // need to log in again
     private boolean loggedIn = true;
 
-    // email and password are not @io.realm.annotations.Required because they are absent in case of Ghost Auth
+    // email and password are not @Required because they are absent in case of Ghost Auth
     private String email = null;
 
     private String password = null;
@@ -83,10 +83,10 @@ public class BlogMetadata implements io.realm.RealmModel {
 
     // NOTE: this function should not be invoked too frequently - preferably only when opening the
     // app, switching blogs, or logging out
-    public io.realm.RealmConfiguration getDataRealmConfig() {
+    public RealmConfiguration getDataRealmConfig() {
         AnalyticsService.logDbSchemaVersion(String.valueOf(DATA_DB_SCHEMA_VERSION));
         String encodedBlogUrl = Base64.encodeToString(blogUrl.getBytes(), Base64.URL_SAFE | Base64.NO_WRAP);
-        return new io.realm.RealmConfiguration.Builder()
+        return new RealmConfiguration.Builder()
                 .name(encodedBlogUrl + ".realm")
                 .modules(new BlogDataModule())
                 .schemaVersion(DATA_DB_SCHEMA_VERSION)

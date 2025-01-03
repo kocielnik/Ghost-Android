@@ -11,8 +11,8 @@ import io.realm.RealmModel;
 import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
-@io.realm.annotations.RealmClass
-public class PendingAction implements io.realm.RealmModel, Parcelable {
+@RealmClass
+public class PendingAction implements RealmModel, Parcelable {
 
     public static final String CREATE = "pendingaction:create";
     public static final String EDIT = "pendingaction:edit";
@@ -25,7 +25,7 @@ public class PendingAction implements io.realm.RealmModel, Parcelable {
     @Retention(RetentionPolicy.SOURCE)
     public @interface Type {}
 
-    @Type @io.realm.annotations.Required
+    @Type @Required
     private String type;
 
     @SuppressWarnings("unused")

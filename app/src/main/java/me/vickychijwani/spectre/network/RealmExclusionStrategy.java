@@ -9,7 +9,7 @@ class RealmExclusionStrategy implements ExclusionStrategy {
 
     @Override
     public boolean shouldSkipField(FieldAttributes f) {
-        return f.getDeclaringClass().equals(io.realm.RealmObject.class);
+        return f.getDeclaringClass().equals(RealmObject.class);
     }
 
     @Override

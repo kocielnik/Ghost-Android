@@ -80,7 +80,7 @@ public class SpectreApplication extends Application {
 
     private void setupMetadataRealm() {
         Realm.init(this);
-        io.realm.RealmConfiguration config = new io.realm.RealmConfiguration.Builder()
+        RealmConfiguration config = new RealmConfiguration.Builder()
                 .modules(new BlogMetadataModule())
                 .schemaVersion(METADATA_DB_SCHEMA_VERSION)
                 .migration(new BlogMetadataDBMigration())

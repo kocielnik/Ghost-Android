@@ -20,8 +20,8 @@ import me.vickychijwani.spectre.model.GsonExclude;
 import me.vickychijwani.spectre.network.GhostApiUtils;
 import me.vickychijwani.spectre.util.DateTimeUtils;
 
-@io.realm.annotations.RealmClass
-public class Post implements io.realm.RealmModel, Parcelable {
+@RealmClass
+public class Post implements RealmModel, Parcelable {
 
     @Retention(RetentionPolicy.SOURCE)
     @StringDef({ DRAFT, SCHEDULED, PUBLISHED })
@@ -40,31 +40,31 @@ public class Post implements io.realm.RealmModel, Parcelable {
 
     public static final String DEFAULT_TITLE = "(Untitled)";
 
-    @io.realm.annotations.PrimaryKey
+    @PrimaryKey
     private String id;
 
     private String uuid = null;
 
-    @io.realm.annotations.Required
+    @Required
     private String title = DEFAULT_TITLE;
 
-    @io.realm.annotations.Required
+    @Required
     private String slug = "";
 
-    @io.realm.annotations.Required @Status
+    @Required @Status
     private String status = DRAFT;
 
     private String mobiledoc = "";
 
     private String html = "";
 
-    private io.realm.RealmList<Tag> tags;
+    private RealmList<Tag> tags;
 
     private String featureImage = null;
     private boolean featured = false;
     private boolean page = false;
 
-    @io.realm.annotations.Required
+    @Required
     private String language = "en_US";
 
     private String author;
@@ -75,7 +75,7 @@ public class Post implements io.realm.RealmModel, Parcelable {
     private Date createdAt = null;
     private Date publishedAt = DateTimeUtils.FAR_FUTURE;  // so that locally-created posts will be sorted to the top
 
-    @io.realm.annotations.Required
+    @Required
     private Date updatedAt = DateTimeUtils.FAR_FUTURE;  // so that locally-created posts will be sorted to the top
 
     private String metaTitle = "";
@@ -87,9 +87,9 @@ public class Post implements io.realm.RealmModel, Parcelable {
     // NOTE: default values for these fields will be assigned to all serialized Posts (because they
     // are not touched by Retrofit), so don't assign any defaults specific to new posts here!
     @GsonExclude
-    private io.realm.RealmList<PendingAction> pendingActions = new io.realm.RealmList<>();
+    private RealmList<PendingAction> pendingActions = new RealmList<>();
 
-    @io.realm.annotations.Required @GsonExclude @ConflictState
+    @Required @GsonExclude @ConflictState
     private String conflictState = CONFLICT_NONE;
 
     public Post() {}
@@ -105,7 +105,7 @@ public class Post implements io.realm.RealmModel, Parcelable {
         this.setHtml(post.getHtml());
 
         List<Tag> realmTags = post.getTags();
-        io.realm.RealmList<Tag> unmanagedTags = new io.realm.RealmList<>();
+        RealmList<Tag> unmanagedTags = new RealmList<>();
         for (Tag realmTag : realmTags) {
             unmanagedTags.add(new Tag(realmTag));
         }
@@ -235,7 +235,7 @@ public class Post implements io.realm.RealmModel, Parcelable {
         this.status = in.readString();
         this.mobiledoc = in.readString();
         this.html = in.readString();
-        this.tags = new io.realm.RealmList<>();
+        this.tags = new RealmList<>();
         in.readList(this.tags, Tag.class.getClassLoader());
         this.featureImage = in.readString();
         this.featured = in.readByte() != 0;
@@ -254,7 +254,7 @@ public class Post implements io.realm.RealmModel, Parcelable {
         this.metaTitle = in.readString();
         this.metaDescription = in.readString();
         this.customExcerpt = in.readString();
-        this.pendingActions = new io.realm.RealmList<>();
+        this.pendingActions = new RealmList<>();
         in.readList(this.pendingActions, PendingAction.class.getClassLoader());
         //noinspection WrongConstant
         this.conflictState = in.readString();
@@ -347,11 +347,11 @@ public class Post implements io.realm.RealmModel, Parcelable {
         this.html = html;
     }
 
-    public io.realm.RealmList<Tag> getTags() {
+    public RealmList<Tag> getTags() {
      return tags;
     }
 
-    public void setTags(io.realm.RealmList<Tag> tags) {
+    public void setTags(RealmList<Tag> tags) {
         this.tags = tags;
     }
 
@@ -467,11 +467,11 @@ public class Post implements io.realm.RealmModel, Parcelable {
         this.customExcerpt = customExcerpt;
     }
 
-    public io.realm.RealmList<PendingAction> getPendingActions() {
+    public RealmList<PendingAction> getPendingActions() {
         return pendingActions;
     }
 
-    public void setPendingActions(io.realm.RealmList<PendingAction> pendingActions) {
+    public void setPendingActions(RealmList<PendingAction> pendingActions) {
         this.pendingActions = pendingActions;
     }
 

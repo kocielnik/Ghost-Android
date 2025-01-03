@@ -33,7 +33,7 @@ public final class AccountManager {
         if (!hasActiveBlog()) {
             throw new IllegalStateException("There is no active blog");
         }
-        final io.realm.RealmResults<BlogMetadata> matchingBlogs = findAllBlogsMatchingUrl(activeBlogUrl);
+        final RealmResults<BlogMetadata> matchingBlogs = findAllBlogsMatchingUrl(activeBlogUrl);
         return Realm.getDefaultInstance().copyFromRealm(matchingBlogs.first());
     }
 
@@ -57,7 +57,7 @@ public final class AccountManager {
     }
 
     public static BlogMetadata getBlog(@NonNull String blogUrl) {
-        final io.realm.RealmResults<BlogMetadata> matchingBlogs = findAllBlogsMatchingUrl(blogUrl);
+        final RealmResults<BlogMetadata> matchingBlogs = findAllBlogsMatchingUrl(blogUrl);
         return Realm.getDefaultInstance().copyFromRealm(matchingBlogs.first());
     }
 
@@ -69,7 +69,7 @@ public final class AccountManager {
     }
 
     public static void deleteBlog(@NonNull String blogUrl) {
-        io.realm.RealmResults<BlogMetadata> matchingBlogs = findAllBlogsMatchingUrl(blogUrl);
+        RealmResults<BlogMetadata> matchingBlogs = findAllBlogsMatchingUrl(blogUrl);
         if (matchingBlogs.isEmpty()) {
             throw new IllegalStateException("No blog found matching the URL: " + blogUrl);
         }
@@ -82,9 +82,9 @@ public final class AccountManager {
         // keep a copy of the metadata around so we can delete the data Realm after this
         final Realm realm = Realm.getDefaultInstance();
         BlogMetadata blogToDelete = matchingBlogs.get(0);
-        io.realm.RealmConfiguration dataRealmToDelete = realm.copyFromRealm(blogToDelete).getDataRealmConfig();
+        RealmConfiguration dataRealmToDelete = realm.copyFromRealm(blogToDelete).getDataRealmConfig();
         RealmUtils.executeTransaction(realm, r -> {
-            io.realm.RealmObject.deleteFromRealm(blogToDelete);
+            RealmObject.deleteFromRealm(blogToDelete);
         });
 
         // delete blog data
@@ -103,7 +103,7 @@ public final class AccountManager {
 
 
     // private methods
-    private static io.realm.RealmResults<BlogMetadata> findAllBlogsMatchingUrl(String blogUrl) {
+    private static RealmResults<BlogMetadata> findAllBlogsMatchingUrl(String blogUrl) {
         return Realm.getDefaultInstance()
                 .where(BlogMetadata.class)
                 .equalTo("blogUrl", blogUrl)

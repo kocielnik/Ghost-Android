@@ -5,10 +5,10 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
-@io.realm.annotations.RealmClass
-public class ConfigurationParam implements io.realm.RealmModel {
+@RealmClass
+public class ConfigurationParam implements RealmModel {
 
-    @io.realm.annotations.PrimaryKey
+    @PrimaryKey
     private String key;
 
     private String value;

@@ -7,25 +7,25 @@ import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
 @SuppressWarnings("unused")
-@io.realm.annotations.RealmClass
-public class User implements io.realm.RealmModel {
+@RealmClass
+public class User implements RealmModel {
 
-    @io.realm.annotations.PrimaryKey
+    @PrimaryKey
     private String id;
 
-    @io.realm.annotations.Required
+    @Required
     private String name;
 
-    @io.realm.annotations.Required
+    @Required
     private String slug;
 
-    @io.realm.annotations.Required
+    @Required
     private String email;
 
     private String profileImage;
     private String bio;
 
-    private io.realm.RealmList<Role> roles;
+    private RealmList<Role> roles;
 
     // accessors
     public String getId() {
@@ -76,11 +76,11 @@ public class User implements io.realm.RealmModel {
         this.bio = bio;
     }
 
-    public io.realm.RealmList<Role> getRoles() {
+    public RealmList<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(io.realm.RealmList<Role> roles) {
+    public void setRoles(RealmList<Role> roles) {
         this.roles = roles;
     }
 

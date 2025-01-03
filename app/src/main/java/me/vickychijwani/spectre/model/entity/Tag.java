@@ -12,13 +12,13 @@ import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
 @SuppressWarnings("unused")
-@io.realm.annotations.RealmClass
-public class Tag implements io.realm.RealmModel, Parcelable {
+@RealmClass
+public class Tag implements RealmModel, Parcelable {
 
-    @io.realm.annotations.PrimaryKey
+    @PrimaryKey
     private String id = null;
 
-    @io.realm.annotations.Required
+    @Required
     private String name;
 
     private String slug = null;

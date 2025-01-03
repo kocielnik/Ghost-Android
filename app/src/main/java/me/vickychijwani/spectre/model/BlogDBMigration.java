@@ -5,12 +5,12 @@ import io.realm.RealmMigration;
 import io.realm.RealmSchema;
 import me.vickychijwani.spectre.util.log.Log;
 
-public class BlogDBMigration implements io.realm.RealmMigration {
+public class BlogDBMigration implements RealmMigration {
 
     private static final String TAG = BlogMetadataDBMigration.class.getSimpleName();
 
     @Override
-    public void migrate(io.realm.DynamicRealm realm, long oldVersion, long newVersion) {
+    public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
         RealmSchema schema = realm.getSchema();
         Log.i(TAG, "MIGRATING BLOG DATA DB from v%d to v%d", oldVersion, newVersion);
 

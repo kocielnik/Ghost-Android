@@ -14,7 +14,7 @@ public final class RealmUtils {
 
     private static final String TAG = "RealmUtils";
 
-    public static void executeTransaction(@NonNull io.realm.Realm realm,
+    public static void executeTransaction(@NonNull Realm realm,
                                                @NonNull RealmTransaction transaction) {
         executeTransaction(realm, r -> {
             transaction.execute(r);
@@ -22,7 +22,7 @@ public final class RealmUtils {
         });
     }
 
-    public static <T> T executeTransaction(@NonNull io.realm.Realm realm,
+    public static <T> T executeTransaction(@NonNull Realm realm,
                                            @NonNull RealmTransactionWithReturn<T> transaction) {
         T retValue;
         realm.beginTransaction();
@@ -42,12 +42,12 @@ public final class RealmUtils {
 
     public static final class Migration {
 
-        private static void changeFieldType(io.realm.RealmObjectSchema objectSchema, String fieldName,
-                                     Class newType, @Nullable io.realm.FieldAttribute attribute,
-                                     Action3<io.realm.DynamicRealmObject, String, String> transformation) {
+        private static void changeFieldType(RealmObjectSchema objectSchema, String fieldName,
+                                     Class newType, @Nullable FieldAttribute attribute,
+                                     Action3<DynamicRealmObject, String, String> transformation) {
             String tempFieldName = fieldName + "_temp";
             if (attribute != null) {
-                if (attribute == io.realm.FieldAttribute.PRIMARY_KEY && objectSchema.hasPrimaryKey()) {
+                if (attribute == FieldAttribute.PRIMARY_KEY && objectSchema.hasPrimaryKey()) {
                     // remove existing primary key
                     objectSchema.removePrimaryKey();
                 }
@@ -68,11 +68,11 @@ public final class RealmUtils {
 
 
     public interface RealmTransaction {
-        void execute(@NonNull io.realm.Realm realm);
+        void execute(@NonNull Realm realm);
     }
 
     public interface RealmTransactionWithReturn<T> {
-        T execute(@NonNull io.realm.Realm realm);
+        T execute(@NonNull Realm realm);
     }
 
 }

@@ -103,7 +103,7 @@ public class NetworkService implements
     // number of posts to fetch
     private static final int POSTS_FETCH_LIMIT = 30;
 
-    private io.realm.Realm mRealm = null;
+    private Realm mRealm = null;
     private GhostApiService mApi = null;
     private AuthToken mAuthToken = null;
     private AuthService mAuthService = null;
@@ -122,7 +122,7 @@ public class NetworkService implements
                     .create(GhostApiService.class);
             setApiService(activeBlog.getBlogUrl(), api);
 
-            mRealm = io.realm.Realm.getInstance(activeBlog.getDataRealmConfig());
+            mRealm = Realm.getInstance(activeBlog.getDataRealmConfig());
             mAuthToken = new AuthToken(mRealm.where(AuthToken.class).findFirst());
         }
     }
@@ -157,7 +157,7 @@ public class NetworkService implements
     public void onNewLogin(String blogUrl, AuthToken authToken) {
         AccountManager.setActiveBlog(blogUrl);
         BlogMetadata activeBlog = AccountManager.getActiveBlog();
-        mRealm = io.realm.Realm.getInstance(activeBlog.getDataRealmConfig());
+        mRealm = Realm.getInstance(activeBlog.getDataRealmConfig());
         onNewAuthToken(authToken);
     }
 
@@ -248,7 +248,7 @@ public class NetworkService implements
     @Subscribe
     public void onLoadUserEvent(final LoadUserEvent event) {
         if (event.loadCachedData || ! event.forceNetworkCall) {
-            io.realm.RealmResults<User> users = mRealm.where(User.class).findAll();
+            RealmResults<User> users = mRealm.where(User.class).findAll();
             if (users.size() > 0) {
                 getBus().post(new UserLoadedEvent(users.first()));
                 refreshSucceeded(event);
@@ -273,7 +273,7 @@ public class NetworkService implements
                     refreshSucceeded(event);
                 } else {
                     // fallback to cached data
-                    io.realm.RealmResults<User> users = mRealm.where(User.class).findAll();
+                    RealmResults<User> users = mRealm.where(User.class).findAll();
                     if (users.size() > 0) {
                         getBus().post(new UserLoadedEvent(users.first()));
                     }
@@ -304,7 +304,7 @@ public class NetworkService implements
     @Subscribe
     public void onLoadBlogSettingsEvent(final LoadBlogSettingsEvent event) {
         if (event.loadCachedData || ! event.forceNetworkCall) {
-            io.realm.RealmResults<Setting> settings = mRealm.where(Setting.class).findAll();
+            RealmResults<Setting> settings = mRealm.where(Setting.class).findAll();
             if (settings.size() > 0) {
                 getBus().post(new BlogSettingsLoadedEvent(settings));
                 refreshSucceeded(event);
@@ -327,7 +327,7 @@ public class NetworkService implements
                     refreshSucceeded(event);
                 } else {
                     // fallback to cached data
-                    io.realm.RealmResults<Setting> settings = mRealm.where(Setting.class).findAll();
+                    RealmResults<Setting> settings = mRealm.where(Setting.class).findAll();
                     if (settings.size() > 0) {
                         getBus().post(new BlogSettingsLoadedEvent(settings));
                     }
@@ -369,7 +369,7 @@ public class NetworkService implements
             }
         }
 
-        io.realm.RealmResults<User> users = mRealm.where(User.class).findAll();
+        RealmResults<User> users = mRealm.where(User.class).findAll();
         if (users.size() == 0) {
             return;
         }
@@ -398,7 +398,7 @@ public class NetworkService implements
                     deleteModels(deletedPosts);
 
                     // skip edited posts because they've not yet been uploaded
-                    io.realm.RealmResults<Post> localOnlyEdits = mRealm.where(Post.class)
+                    RealmResults<Post> localOnlyEdits = mRealm.where(Post.class)
                             .in("pendingActions.type", new String[] {
                                     PendingAction.EDIT_LOCAL,
                                     PendingAction.EDIT
@@ -866,7 +866,7 @@ public class NetworkService implements
 
     @Subscribe
     public void onLoadTagsEvent(LoadTagsEvent event) {
-        io.realm.RealmResults<Tag> tags = mRealm.where(Tag.class).findAllSorted("name");
+        RealmResults<Tag> tags = mRealm.where(Tag.class).findAllSorted("name");
         List<Tag> tagsCopy = new ArrayList<>(tags.size());
         for (Tag tag : tags) {
             tagsCopy.add(new Tag(tag.getName()));
@@ -892,14 +892,14 @@ public class NetworkService implements
 
         // clear all persisted blog data to avoid primary key conflicts
         mRealm.close();
-        io.realm.Realm.deleteRealm(mRealm.getConfiguration());
+        Realm.deleteRealm(mRealm.getConfiguration());
         String activeBlogUrl = AccountManager.getActiveBlogUrl();
         new AuthStore().deleteCredentials(activeBlogUrl);
         AccountManager.deleteBlog(activeBlogUrl);
 
         // switch the Realm to the now-active blog
         if (AccountManager.hasActiveBlog()) {
-            mRealm = io.realm.Realm.getInstance(AccountManager.getActiveBlog().getDataRealmConfig());
+            mRealm = Realm.getInstance(AccountManager.getActiveBlog().getDataRealmConfig());
         }
 
         // reset state, to be sure
@@ -917,10 +917,10 @@ public class NetworkService implements
     private void clearAndSetPendingActionOnPost(@NonNull Post post, @PendingAction.Type String newPendingAction) {
         List<PendingAction> pendingActions = post.getPendingActions();
         mRealm.executeTransaction(realm -> {
-            // make a copy since the original is a live-updating io.realm.RealmList
+            // make a copy since the original is a live-updating RealmList
             List<PendingAction> pendingActionsCopy = new ArrayList<>(pendingActions);
             for (PendingAction pa : pendingActionsCopy) {
-                io.realm.RealmObject.deleteFromRealm(pa);
+                RealmObject.deleteFromRealm(pa);
             }
             pendingActions.clear();
             post.addPendingAction(newPendingAction);
@@ -979,7 +979,7 @@ public class NetworkService implements
 
     private List<Post> getPostsSorted() {
         // FIXME time complexity O(n) for copying + O(n log n) for sorting!
-        io.realm.RealmResults<Post> realmPosts = mRealm.where(Post.class).findAll();
+        RealmResults<Post> realmPosts = mRealm.where(Post.class).findAll();
         List<Post> unmanagedPosts = copyPosts(realmPosts);
         Collections.sort(unmanagedPosts, PostUtils.COMPARATOR_MAIN_LIST);
         return unmanagedPosts;
@@ -1000,7 +1000,7 @@ public class NetworkService implements
     }
 
     private void removeEtag(@ETag.Type String etagType) {
-        io.realm.RealmResults<ETag> etags = mRealm.where(ETag.class).equalTo("type", etagType).findAll();
+        RealmResults<ETag> etags = mRealm.where(ETag.class).equalTo("type", etagType).findAll();
         if (etags.size() > 0) {
             deleteModel(etags.first());
         }
@@ -1012,7 +1012,7 @@ public class NetworkService implements
      * you'll get the same id twice!</b>
      */
     @NonNull
-    private <T extends io.realm.RealmModel> String getTempUniqueId(Class<T> clazz) {
+    private <T extends RealmModel> String getTempUniqueId(Class<T> clazz) {
         int tempId = Integer.MAX_VALUE;
         while (mRealm.where(clazz).equalTo("id", String.valueOf(tempId)).findAll().size() > 0) {
             --tempId;
@@ -1028,11 +1028,11 @@ public class NetworkService implements
         return copied;
     }
 
-    private <T extends io.realm.RealmModel> T createOrUpdateModel(T object) {
+    private <T extends RealmModel> T createOrUpdateModel(T object) {
         return createOrUpdateModel(object, null);
     }
 
-    private <T extends io.realm.RealmModel> T createOrUpdateModel(T object,
+    private <T extends RealmModel> T createOrUpdateModel(T object,
                                                          @Nullable Runnable afterTransaction) {
         return RealmUtils.executeTransaction(mRealm, realm -> {
             T realmObject = mRealm.copyToRealmOrUpdate(object);
@@ -1043,11 +1043,11 @@ public class NetworkService implements
         });
     }
 
-    private <T extends io.realm.RealmModel> List<T> createOrUpdateModel(Iterable<T> objects) {
+    private <T extends RealmModel> List<T> createOrUpdateModel(Iterable<T> objects) {
         return createOrUpdateModel(objects, null);
     }
 
-    private <T extends io.realm.RealmModel> List<T> createOrUpdateModel(Iterable<T> objects,
+    private <T extends RealmModel> List<T> createOrUpdateModel(Iterable<T> objects,
                                                                @Nullable Runnable afterTransaction) {
         if (! objects.iterator().hasNext()) {
             return Collections.emptyList();
@@ -1061,19 +1061,19 @@ public class NetworkService implements
         });
     }
 
-    private <T extends io.realm.RealmModel> void deleteModel(T realmObject) {
+    private <T extends RealmModel> void deleteModel(T realmObject) {
         RealmUtils.executeTransaction(mRealm, realm -> {
-            io.realm.RealmObject.deleteFromRealm(realmObject);
+            RealmObject.deleteFromRealm(realmObject);
         });
     }
 
-    private <T extends io.realm.RealmModel> void deleteModels(Iterable<T> realmObjects) {
+    private <T extends RealmModel> void deleteModels(Iterable<T> realmObjects) {
         if (! realmObjects.iterator().hasNext()) {
             return;
         }
         RealmUtils.executeTransaction(mRealm, realm -> {
             for (T realmObject : realmObjects) {
-                io.realm.RealmObject.deleteFromRealm(realmObject);
+                RealmObject.deleteFromRealm(realmObject);
             }
         });
     }

@@ -13,12 +13,12 @@ import me.vickychijwani.spectre.pref.AppState;
 import me.vickychijwani.spectre.pref.UserPrefs;
 import me.vickychijwani.spectre.util.log.Log;
 
-public class BlogMetadataDBMigration implements io.realm.RealmMigration {
+public class BlogMetadataDBMigration implements RealmMigration {
 
     private static final String TAG = BlogMetadataDBMigration.class.getSimpleName();
 
     @Override
-    public void migrate(io.realm.DynamicRealm realm, long oldVersion, long newVersion) {
+    public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
         RealmSchema schema = realm.getSchema();
         Log.i(TAG, "MIGRATING METADATA DB from v%d to v%d", oldVersion, newVersion);
 
@@ -28,12 +28,12 @@ public class BlogMetadataDBMigration implements io.realm.RealmMigration {
         if (oldVersion == 0) {
             if (schema.get("Post").isNullable("slug")) {
                 // get rid of null-valued slugs, if any exist
-                io.realm.RealmResults<io.realm.DynamicRealmObject> postsWithNullSlug = realm
+                RealmResults<DynamicRealmObject> postsWithNullSlug = realm
                         .where(Post.class.getSimpleName())
                         .isNull("slug")
                         .findAll();
                 Log.i(TAG, "CONVERTING %d SLUGS FROM NULL TO \"\"", postsWithNullSlug.size());
-                for (io.realm.io.realm.DynamicRealmObject obj : postsWithNullSlug) {
+                for (DynamicRealmObject obj : postsWithNullSlug) {
                     obj.setString("slug", "");
                 }
                 // finally, make the field required
@@ -67,7 +67,7 @@ public class BlogMetadataDBMigration implements io.realm.RealmMigration {
         if (oldVersion == 1) {
             // delete all etags, so the info can be fetched and stored
             // again, with role-based permissions enforced
-            io.realm.RealmResults<io.realm.DynamicRealmObject> allEtags = realm
+            RealmResults<DynamicRealmObject> allEtags = realm
                     .where(ETag.class.getSimpleName())
                     .equalTo("type", ETag.TYPE_CURRENT_USER)
                     .or()
@@ -80,10 +80,10 @@ public class BlogMetadataDBMigration implements io.realm.RealmMigration {
                 // create the Role table
                 Log.i(TAG, "CREATING ROLE TABLE");
                 schema.create("Role")
-                        .addField("id", Integer.class, io.realm.FieldAttribute.PRIMARY_KEY)
-                        .addField("uuid", String.class, io.realm.FieldAttribute.REQUIRED)
-                        .addField("name", String.class, io.realm.FieldAttribute.REQUIRED)
-                        .addField("description", String.class, io.realm.FieldAttribute.REQUIRED);
+                        .addField("id", Integer.class, FieldAttribute.PRIMARY_KEY)
+                        .addField("uuid", String.class, FieldAttribute.REQUIRED)
+                        .addField("name", String.class, FieldAttribute.REQUIRED)
+                        .addField("description", String.class, FieldAttribute.REQUIRED);
             }
 
             if (!schema.get("User").hasField("roles")) {
@@ -96,7 +96,7 @@ public class BlogMetadataDBMigration implements io.realm.RealmMigration {
         if (oldVersion == 2) {
             if (!schema.get("Post").hasField("conflictState")) {
                 Log.i(TAG, "ADDING CONFLICT STATE FIELD TO POST TABLE");
-                schema.get("Post").addField("conflictState", String.class, io.realm.FieldAttribute.REQUIRED);
+                schema.get("Post").addField("conflictState", String.class, FieldAttribute.REQUIRED);
             }
             ++oldVersion;
         }

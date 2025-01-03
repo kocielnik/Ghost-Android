@@ -10,8 +10,8 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
-@io.realm.annotations.RealmClass
-public class ETag extends io.realm.RealmObject {
+@RealmClass
+public class ETag extends RealmObject {
 
     @Retention(RetentionPolicy.SOURCE)
     @StringDef({ TYPE_ALL_POSTS, TYPE_CURRENT_USER, TYPE_BLOG_SETTINGS, TYPE_CONFIGURATION })
@@ -22,10 +22,10 @@ public class ETag extends io.realm.RealmObject {
     public static final String TYPE_BLOG_SETTINGS = "blog_settings";
     public static final String TYPE_CONFIGURATION = "configuration";
 
-    @io.realm.annotations.PrimaryKey
+    @PrimaryKey
     private String type;
 
-    @io.realm.annotations.Required
+    @Required
     private String tag;
 
     @SuppressWarnings("unused")

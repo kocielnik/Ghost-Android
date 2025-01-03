@@ -5,13 +5,13 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 import io.realm.annotations.Required;
 
-@io.realm.annotations.RealmClass
-public class Role implements io.realm.RealmModel {
+@RealmClass
+public class Role implements RealmModel {
 
-    @io.realm.annotations.PrimaryKey
+    @PrimaryKey
     private String id;
 
-    @io.realm.annotations.Required
+    @Required
     private String name;
 
     private String description;
