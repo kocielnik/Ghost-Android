@@ -14,7 +14,7 @@ pkgs.mkShell {
     androidSdk
     glibc
     gradle
-    openjdk
+    openjdk8
     kotlin
     neovim
   ];
