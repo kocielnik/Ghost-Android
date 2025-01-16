@@ -3,6 +3,7 @@
 buildscript {
     ext.kotlinVersion = '1.6.0'
     ext.realmGradleVersion = '10.4.0'
+    ext.gradleVersion = '6.1.1'
     repositories {
         google()
         jcenter()
@@ -23,7 +24,6 @@ allprojects {
 }
 
 ext {
-    gradleVersion = '6.1.1'
     retrofitVersion = '2.3.0'
     okhttpVersion = '3.9.0'
     supportLibVersion = '26.1.0'
