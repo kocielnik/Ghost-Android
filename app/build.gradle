@@ -7,7 +7,8 @@ buildscript {
     }
     dependencies {
         classpath "io.realm:realm-gradle-plugin:$realmGradleVersion"
-        classpath 'io.fabric.tools:gradle:1.27.0'
+        classpath "com.android.tools.build:gradle:$gradleVersion"
+        classpath "io.fabric.tools:gradle:$gradleVersion"
     }
 }
 
