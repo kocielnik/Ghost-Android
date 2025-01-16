@@ -114,7 +114,7 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
     // reactive extensions (rx)
     implementation "io.reactivex.rxjava2:rxjava:2.1.4"
