@@ -152,8 +152,8 @@ dependencies {
     implementation("com.crashlytics.sdk.android:answers:1.3.7@aar") {
         transitive = true
     }
-    implementation "com.github.permissions-dispatcher:permissionsdispatcher:permissionsdispatcher:${rootProject.ext.permissionsDispatcherVersion}"
-    annotationProcessor "com.github.permissions-dispatcher:permissionsdispatcher-processor:${rootProject.ext.permissionsDispatcherVersion}"
+    implementation "com.github.permissions-dispatcher:permissionsdispatcher:${rootProject.ext.permissionsDispatcherVersion}"
+    kapt "com.github.permissions-dispatcher:permissionsdispatcher-processor:${rootProject.ext.permissionsDispatcherVersion}"
     implementation "com.github.slugify:slugify:2.1.9"
 
     // debug
