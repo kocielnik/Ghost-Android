@@ -26,7 +26,7 @@ ext {
     retrofitVersion = '2.3.0'
     okhttpVersion = '3.9.0'
     supportLibVersion = '26.1.0'
-    permissionsDispatcherVersion = realmGradleVersion
+    permissionsDispatcherVersion = kotlinVersion
     butterKnifeVersion = '8.8.1'
     stethoVersion = '1.5.0'
     debugdrawerVersion = '0.7.0'
