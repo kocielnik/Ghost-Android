@@ -18,12 +18,12 @@ apply plugin: 'realm-android'
 apply plugin: 'io.fabric'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
 
     defaultConfig {
         applicationId 'org.ghost.android'
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 28
         versionCode 1_02_01_00      // 2 digits each for major, minor, patch, build number
                                     // example: 2.0.0-beta1 => 2_00_00_00, 2.0.0 => 2_00_00_01
         versionName '1.2.1'
