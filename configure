@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+file="realm-gradle-plugin-2.3.1.pom"
+local_repo="$HOME/.m2/repository/io/realm/realm-gradle-plugin/2.3.1"
+
+#wget http://maven.wafour.com:8081/artifactory/libs-release/io/realm/realm-gradle-plugin/2.3.1/"$file"
+
+mkdir -p "$local_repo"
+
+mv m2/"$file" "$local_repo"

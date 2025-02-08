@@ -20,6 +20,10 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
 
       - run:
+          name: Provide Dependencies
+          command: ./configure
+
+      - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
 
