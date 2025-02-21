@@ -10,7 +10,13 @@ buildscript {
     }
 }
 
+// Don't cache SNAPSHOT (changing) dependencies.
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
+
 apply plugin: 'com.android.application'
+apply plugin: "io.realm.kotlin"
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
