@@ -1,8 +1,5 @@
 package me.vickychijwani.spectre.auth;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.VisibleForTesting;
-
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 
@@ -15,6 +12,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import static me.vickychijwani.spectre.util.NetworkUtils.networkCall;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 
 class NetworkBlogUrlValidator implements BlogUrlValidator {
 

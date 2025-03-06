@@ -1,7 +1,8 @@
 package me.vickychijwani.spectre.util;
 
-import android.support.annotation.NonNull;
 import android.widget.EditText;
+
+import androidx.annotation.NonNull;
 
 /**
  * Captures the focus / selection state of an {@link android.widget.EditText}.

@@ -1,12 +1,14 @@
 package me.vickychijwani.spectre.network;
 
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import retrofit2.Response;
 
 public class ApiFailure<T> {
 
-    @Nullable public final Response<T> response;
+    @Nullable
+    public final Response<T> response;
     @Nullable public final Throwable error;
 
     @SuppressWarnings("NullableProblems")

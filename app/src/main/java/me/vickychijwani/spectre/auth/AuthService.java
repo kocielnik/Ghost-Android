@@ -1,8 +1,8 @@
 package me.vickychijwani.spectre.auth;
 
-import android.support.annotation.NonNull;
+/*import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
+import android.support.annotation.VisibleForTesting;*/
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -26,6 +26,10 @@ import me.vickychijwani.spectre.util.NetworkUtils;
 import me.vickychijwani.spectre.util.log.Log;
 
 import static me.vickychijwani.spectre.event.BusProvider.getBus;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 public class AuthService implements Listenable<AuthService.Listener> {
 

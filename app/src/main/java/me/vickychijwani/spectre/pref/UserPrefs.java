@@ -1,7 +1,8 @@
 package me.vickychijwani.spectre.pref;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 /**
  * Utility class to persist user preferences. Do NOT use this for persisting application state, that

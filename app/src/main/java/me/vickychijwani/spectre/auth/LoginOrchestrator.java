@@ -1,9 +1,5 @@
 package me.vickychijwani.spectre.auth;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,6 +31,10 @@ import okhttp3.OkHttpClient;
 import retrofit2.HttpException;
 
 import static me.vickychijwani.spectre.event.BusProvider.getBus;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 /**
  * Orchestrates the entire login process from start to finish.

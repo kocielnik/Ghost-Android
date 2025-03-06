@@ -2,7 +2,7 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="me.vickychijwani.spectre">
+    >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -32,6 +32,7 @@
         <activity
             android:name=".view.PostListActivity"
             android:launchMode="singleTop"
+            android:exported="true"
             android:theme="@style/CardListActivityTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

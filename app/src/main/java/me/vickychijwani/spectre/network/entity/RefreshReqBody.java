@@ -1,6 +1,7 @@
 package me.vickychijwani.spectre.network.entity;
 
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 @SuppressWarnings("unused")
 public class RefreshReqBody {

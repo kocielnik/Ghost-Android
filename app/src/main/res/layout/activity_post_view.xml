@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout
+<androidx.drawerlayout.widget.DrawerLayout
     android:id="@+id/drawer_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,17 +8,17 @@
     android:layout_height="match_parent"
     tools:context=".view.PostViewActivity">
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/post_view_appbar_height"
             android:background="?attr/colorPrimary">
 
-            <android.support.v7.widget.Toolbar
+            <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 style="@style/MyToolbar"
                 android:layout_width="match_parent"
@@ -39,12 +39,12 @@
                     tools:text="Toolbar Title"
                     />
 
-            </android.support.v7.widget.Toolbar>
+            </androidx.appcompat.widget.Toolbar>
 
             <!-- TODO hard-coded layout direction = "ltr" instead of "locale"
                 because ViewPager doesn't have RTL support
                 https://code.google.com/p/android/issues/detail?id=56831 -->
-            <android.support.design.widget.TabLayout
+            <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabbar"
                 style="@style/MyTabLayout"
                 android:layout_width="match_parent"
@@ -56,9 +56,9 @@
                 tools:targetApi="jelly_bean_mr1"
                 />
 
-        </android.support.design.widget.AppBarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-        <android.support.v4.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -72,9 +72,9 @@
             android:layout_gravity="bottom"
             />
 
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <android.support.design.widget.NavigationView
+    <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_height="match_parent"
         android:layout_width="wrap_content"
@@ -82,4 +82,4 @@
         app:headerLayout="@layout/post_settings"
         />
 
-</android.support.v4.widget.DrawerLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

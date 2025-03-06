@@ -1,9 +1,10 @@
 package me.vickychijwani.spectre.util;
 
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.util.Patterns;
 import android.widget.EditText;
+
+import androidx.annotation.NonNull;
 
 import me.vickychijwani.spectre.util.functions.Action1;
 

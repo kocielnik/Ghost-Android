@@ -6,12 +6,6 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPropertyAnimatorListener;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -25,8 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import me.vickychijwani.spectre.R;
 import me.vickychijwani.spectre.model.entity.Post;
 import me.vickychijwani.spectre.model.entity.Tag;
@@ -35,6 +28,13 @@ import me.vickychijwani.spectre.util.NetworkUtils;
 import me.vickychijwani.spectre.util.PostUtils;
 
 import static me.vickychijwani.spectre.util.NetworkUtils.makePicassoUrl;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewPropertyAnimatorListener;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -264,16 +264,22 @@ class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     static class PostViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.post_title)          TextView title;
-        @BindView(R.id.post_status_text)    TextView statusText;
-        @BindView(R.id.post_status_icon)    ImageView statusIcon;
-        @BindView(R.id.post_image)          ImageView image;
-        @BindView(R.id.post_tags)           TextView tags;
+        /*@BindView(R.id.post_title)  */        TextView title;
+      /*  @BindView(R.id.post_status_text)*/    TextView statusText;
+        /*@BindView(R.id.post_status_icon)*/    ImageView statusIcon;
+        /*@BindView(R.id.post_image)  */        ImageView image;
+        /*@BindView(R.id.post_tags)*/           TextView tags;
 
         public PostViewHolder(@NonNull View view, View.OnClickListener clickListener) {
             super(view);
-            ButterKnife.bind(this, view);
-            view.setOnClickListener(clickListener);
+
+            title = itemView.findViewById(R.id.post_title);
+            statusText = itemView.findViewById(R.id.post_status_text);
+            statusIcon = itemView.findViewById(R.id.post_status_icon);
+            image = itemView.findViewById(R.id.post_image);
+            tags = itemView.findViewById(R.id.post_tags);
+
+            itemView.setOnClickListener(clickListener);
         }
 
         // courtesy http://stackoverflow.com/a/33961706/504611
@@ -285,11 +291,14 @@ class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     static class FooterViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.post_limit_exceeded) TextView textView;
+        /*@BindView(R.id.post_limit_exceeded) */TextView textView;
 
         public FooterViewHolder(View view) {
             super(view);
-            ButterKnife.bind(this, view);
+
+            // Initialize TextView using findViewById
+            textView = itemView.findViewById(R.id.post_limit_exceeded);
+
         }
     }
 

@@ -1,5 +1,6 @@
 package me.vickychijwani.spectre.model.entity;
 
+
 import io.realm.RealmModel;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;

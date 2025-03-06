@@ -1,6 +1,7 @@
 package me.vickychijwani.spectre.util;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 /**
  * An object that can be listened to or unlistened from.

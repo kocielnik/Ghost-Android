@@ -2,7 +2,8 @@ package me.vickychijwani.spectre.pref;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 /**
  * Base class for managing a specific {@link SharedPreferences} file.

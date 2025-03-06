@@ -5,9 +5,6 @@ import android.content.pm.ApplicationInfo;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +14,10 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import me.vickychijwani.spectre.BuildConfig;
 import me.vickychijwani.spectre.R;
@@ -55,7 +56,8 @@ public class WebViewFragment extends BaseFragment {
     public WebViewFragment() {}
 
     @SuppressLint("SetJavaScriptEnabled")
-    @NonNull @Override
+    @NonNull
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         @LayoutRes int layoutId = getArguments().getInt(KEY_LAYOUT_ID);

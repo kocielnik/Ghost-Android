@@ -1,8 +1,6 @@
 package me.vickychijwani.spectre.view.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -14,11 +12,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.BindView;
-import butterknife.OnClick;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import me.vickychijwani.spectre.R;
 import me.vickychijwani.spectre.account.AccountManager;
 import me.vickychijwani.spectre.auth.LoginOrchestrator;
+import me.vickychijwani.spectre.databinding.FragmentGhostV0ErrorBinding;
+import me.vickychijwani.spectre.databinding.FragmentLoginUrlBinding;
 import me.vickychijwani.spectre.util.AppUtils;
 import me.vickychijwani.spectre.util.KeyboardUtils;
 import me.vickychijwani.spectre.util.Listenable;
@@ -30,12 +31,14 @@ public class LoginUrlFragment extends BaseFragment implements
         TextView.OnEditorActionListener,
         LoginOrchestrator.Listener
 {
-
+private FragmentLoginUrlBinding binding;
+/*
     @BindView(R.id.blog_url)                EditText mBlogUrlView;
     @BindView(R.id.next_btn)                View mNextBtn;
     @BindView(R.id.blog_url_error)          TextView mBlogUrlErrorView;
     @BindView(R.id.login_help_tip)          TextView mLoginHelpTipView;
     @BindView(R.id.progress)                ProgressBar mProgress;
+*/
 
     private Listenable<LoginOrchestrator.Listener> mLoginOrchestrator = null;
 
@@ -50,18 +53,17 @@ public class LoginUrlFragment extends BaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_login_url, container, false);
-        bindView(view);
+        binding = FragmentLoginUrlBinding.inflate(inflater, container, false);
 
         if (AccountManager.hasActiveBlog()) {
             String blogUrl = AccountManager.getActiveBlogUrl();
-            mBlogUrlView.setText(blogUrl.replaceFirst("^https?://", ""));
-            mBlogUrlView.setSelection(mBlogUrlView.getText().length());
+            binding.blogUrl.setText(blogUrl.replaceFirst("^https?://", ""));
+            binding.blogUrl.setSelection(binding.blogUrl.getText().length());
         }
-        mBlogUrlView.setOnEditorActionListener(this);
+        binding.blogUrl.setOnEditorActionListener(this);
 
-        final String loginHelpTip = mLoginHelpTipView.getText().toString();
-        AppUtils.setHtmlWithLinkClickHandler(mLoginHelpTipView, loginHelpTip, (url) -> {
+        final String loginHelpTip = binding.loginHelpTip.getText().toString();
+        AppUtils.setHtmlWithLinkClickHandler(binding.loginHelpTip, loginHelpTip, (url) -> {
             if ("ghost-help".equals(url)) {
                 AppUtils.openUri(LoginUrlFragment.this, "https://www.ghostforbeginners.com/beginners/");
             } else {
@@ -69,7 +71,8 @@ public class LoginUrlFragment extends BaseFragment implements
             }
         });
 
-        return view;
+        return binding.getRoot();
+
     }
 
     @Override
@@ -103,21 +106,21 @@ public class LoginUrlFragment extends BaseFragment implements
         return false;
     }
 
-    @OnClick(R.id.blog_url_layout)
+    /*@OnClick(R.id.blog_url_layout)*/
     public void onBlogUrlLayoutClicked() {
-        KeyboardUtils.focusAndShowKeyboard(getActivity(), mBlogUrlView);
+        KeyboardUtils.focusAndShowKeyboard(getActivity(), binding.blogUrl);
     }
 
-    @OnClick(R.id.next_btn)
+   /* @OnClick(R.id.next_btn)*/
     public void onNextClicked() {
         if (! NetworkUtils.isConnected(getActivity())) {
             Toast.makeText(getActivity(), R.string.no_internet_connection, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String blogUrl = mBlogUrlView.getText().toString();
+        String blogUrl = binding.blogUrl.getText().toString();
         if (TextUtils.isEmpty(blogUrl)) {
-            mBlogUrlErrorView.setText(R.string.error_field_required);
+            binding.blogUrlError.setText(R.string.error_field_required);
             return;
         }
 
@@ -150,11 +153,11 @@ public class LoginUrlFragment extends BaseFragment implements
                 Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show();
                 break;
         }
-        mBlogUrlErrorView.setText(errorStr);
-        mBlogUrlView.setSelection(mBlogUrlView.getText().length());
-        KeyboardUtils.focusAndShowKeyboard(getActivity(), mBlogUrlView);
+        binding.blogUrlError.setText(errorStr);
+        binding.blogUrl.setSelection(binding.blogUrl.getText().length());
+        KeyboardUtils.focusAndShowKeyboard(getActivity(), binding.blogUrl);
         // show the help tip, and let it stay there; no need to hide it again
-        mLoginHelpTipView.setVisibility(View.VISIBLE);
+        binding.loginHelpTip.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -179,23 +182,23 @@ public class LoginUrlFragment extends BaseFragment implements
 
     private void startWaiting() {
         allowInput(false);
-        mBlogUrlErrorView.setText("");
-        mProgress.setVisibility(View.VISIBLE);
-        mNextBtn.setVisibility(View.INVISIBLE);
+        binding.blogUrlError.setText("");
+        binding.progress.setVisibility(View.VISIBLE);
+        binding.nextBtn.setVisibility(View.INVISIBLE);
     }
 
     private void stopWaiting() {
         allowInput(true);
-        mProgress.setVisibility(View.INVISIBLE);
-        mNextBtn.setVisibility(View.VISIBLE);
+        binding.progress.setVisibility(View.INVISIBLE);
+        binding.nextBtn.setVisibility(View.VISIBLE);
     }
 
     private void allowInput(boolean allow) {
-        mBlogUrlView.setEnabled(allow);
-        mNextBtn.setEnabled(allow);
+        binding.blogUrl.setEnabled(allow);
+        binding.nextBtn.setEnabled(allow);
         if (!allow) {
             // hide the help tip since it contains a clickable link
-            mLoginHelpTipView.setVisibility(View.INVISIBLE);
+            binding.loginHelpTip.setVisibility(View.INVISIBLE);
         }
     }
 

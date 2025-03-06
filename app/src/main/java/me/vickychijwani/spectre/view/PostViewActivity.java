@@ -4,16 +4,6 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -31,6 +21,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.tabs.TabLayout;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Callback;
 
@@ -40,14 +32,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import butterknife.BindDimen;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import io.realm.RealmList;
 import me.vickychijwani.spectre.R;
 import me.vickychijwani.spectre.account.AccountManager;
+import me.vickychijwani.spectre.databinding.ActivityPostListBinding;
+import me.vickychijwani.spectre.databinding.ActivityPostViewBinding;
 import me.vickychijwani.spectre.event.DeletePostEvent;
 import me.vickychijwani.spectre.event.LoadTagsEvent;
 import me.vickychijwani.spectre.event.PostDeletedEvent;
@@ -68,6 +60,15 @@ import me.vickychijwani.spectre.view.widget.ChipsEditText;
 
 import static me.vickychijwani.spectre.util.NetworkUtils.makePicassoUrl;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
+
 public class PostViewActivity extends BaseActivity implements
         ViewPager.OnPageChangeListener,
         PostViewFragmentPagerAdapter.OnFragmentsInitializedListener,
@@ -79,13 +80,16 @@ public class PostViewActivity extends BaseActivity implements
     private static final String TAG = PostViewActivity.class.getSimpleName();
     public static final int RESULT_CODE_DELETED = 1;
 
-    @BindView(R.id.toolbar)                         Toolbar mToolbar;
+   /* @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     @BindView(R.id.toolbar_title)                   TextView mToolbarTitle;
     @BindView(R.id.tabbar)                          TabLayout mTabLayout;
     @BindView(R.id.view_pager)                      ViewPager mViewPager;
-    @BindView(R.id.drawer_layout)                   DrawerLayout mDrawerLayout;
-    @BindView(R.id.nav_view)                        NavigationView mNavView;
-
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+    @BindView(R.id.nav_view)
+    NavigationView mNavView;*/
+   private ActivityPostViewBinding binding;
     private FormattingToolbarManager mFormattingToolbarManager = null;
     private PostImageLayoutManager mPostImageLayoutManager = null;
     private ChipsEditText mPostTagsEditText;
@@ -106,15 +110,16 @@ public class PostViewActivity extends BaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setLayout(R.layout.activity_post_view);
+        binding = ActivityPostViewBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         TypedValue typedColorValue = new TypedValue();
-        getTheme().resolveAttribute(R.attr.colorPrimary, typedColorValue, true);
+        getTheme().resolveAttribute(R.color.status_deleted, typedColorValue, true);
         @ColorInt int colorPrimary = typedColorValue.data;
 
         // ButterKnife doesn't work with the NavigationView's header because it isn't
         // exposed via findViewById: https://code.google.com/p/android/issues/detail?id=190226
-        ViewGroup headerView = (ViewGroup) mNavView.getHeaderView(0);
+        ViewGroup headerView = (ViewGroup) binding.navView.getHeaderView(0);
         ViewGroup postImageLayout = (ViewGroup) headerView.findViewById(R.id.post_image_edit_layout);
         mPostImageLayoutManager = new PostImageLayoutManager(postImageLayout);
         mPostTagsEditText = (ChipsEditText) headerView.findViewById(R.id.post_tags_edit);
@@ -122,7 +127,7 @@ public class PostViewActivity extends BaseActivity implements
         mPostFeatureCheckBox = (CheckBox) headerView.findViewById(R.id.post_feature);
         mPostPageCheckBox = (CheckBox) headerView.findViewById(R.id.post_page);
 
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(binding.toolbar);
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -196,13 +201,13 @@ public class PostViewActivity extends BaseActivity implements
             // hide the formatting toolbar in the preview
             mFormattingToolbarManager.hide();
         }
-        mViewPager.setAdapter(new PostViewFragmentPagerAdapter(this, getSupportFragmentManager(),
+        binding.viewPager.setAdapter(new PostViewFragmentPagerAdapter(this, getSupportFragmentManager(),
                 mPost, this));
-        mViewPager.removeOnPageChangeListener(this);
-        mViewPager.addOnPageChangeListener(this);
-        mViewPager.setCurrentItem(startingTabPosition);
-        mTabLayout.setupWithViewPager(mViewPager);
-        mTabLayout.addOnTabSelectedListener(this);
+        binding.viewPager.removeOnPageChangeListener(this);
+        binding.viewPager.addOnPageChangeListener(this);
+        binding.viewPager.setCurrentItem(startingTabPosition);
+        binding.tabbar.setupWithViewPager(binding.viewPager);
+        binding.tabbar.addOnTabSelectedListener(this);
         updatePostSettings();
         mPostImageLayoutManager.setOnClickListener(this);
     }
@@ -214,7 +219,7 @@ public class PostViewActivity extends BaseActivity implements
         // orientation change, make sure we have the updated post after being re-created
         outState.putParcelable(BundleKeys.POST, mPost);
         outState.putBoolean(BundleKeys.START_EDITING,
-                mViewPager.getCurrentItem() == PostViewFragmentPagerAdapter.TAB_POSITION_EDIT);
+                binding.viewPager.getCurrentItem() == PostViewFragmentPagerAdapter.TAB_POSITION_EDIT);
     }
 
     @Override
@@ -278,31 +283,30 @@ public class PostViewActivity extends BaseActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_view_post:
-                viewPostInBrowser(true);
-                return true;
-            case R.id.action_publish:
-                mPostEditFragment.onPublishClicked();
-                return true;
-            case R.id.action_post_settings:
-                mDrawerLayout.openDrawer(mNavView);
-                return true;
-            case R.id.action_unpublish:
-                mPostEditFragment.onPublishUnpublishClicked();
-                return true;
-            case R.id.action_delete:
-                onDeleteClicked();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_view_post) {
+            viewPostInBrowser(true);
+            return true;
+        } else if (itemId == R.id.action_publish) {
+            mPostEditFragment.onPublishClicked();
+            return true;
+        } else if (itemId == R.id.action_post_settings) {
+            binding.drawerLayout.openDrawer(binding.navView);
+            return true;
+        } else if (itemId == R.id.action_unpublish) {
+            mPostEditFragment.onPublishUnpublishClicked();
+            return true;
+        } else if (itemId == R.id.action_delete) {
+            onDeleteClicked();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(mNavView)) {
-            mDrawerLayout.closeDrawer(mNavView);
+        if (binding.drawerLayout.isDrawerOpen(binding.navView)) {
+            binding.drawerLayout.closeDrawer(binding.navView);
             return;
         }
         super.onBackPressed();
@@ -411,7 +415,7 @@ public class PostViewActivity extends BaseActivity implements
     // this method is marked "unsafe" because it replaces the post editor contents without checking!
     private void unsafeUpdatePost(@NonNull Post newPost) {
         mPost = newPost;
-        ((PostViewFragmentPagerAdapter) mViewPager.getAdapter()).setPost(mPost);
+        ((PostViewFragmentPagerAdapter) binding.viewPager.getAdapter()).setPost(mPost);
         // Crashlytics issue 104: fragments can be null when a draft gets uploaded right
         // after this screen is opened, but *before* the fragments could be initialized.
         // No need to handle this separately, as the ViewPager's adapter will correctly pass
@@ -526,7 +530,7 @@ public class PostViewActivity extends BaseActivity implements
     @Override
     public void onPageSelected(int position) {
         PostViewFragmentPagerAdapter pagerAdapter = (PostViewFragmentPagerAdapter)
-                mViewPager.getAdapter();
+                binding.viewPager.getAdapter();
         Class fragmentType = pagerAdapter.getFragmentType(position);
         if (fragmentType == PostViewFragment.class) {
             onShowPreview();
@@ -564,12 +568,12 @@ public class PostViewActivity extends BaseActivity implements
 
     @Override
     public void setTitle(CharSequence title) {
-        mToolbarTitle.setText(title);
+        binding.toolbarTitle.setText(title);
     }
 
     @Override
     public void setTitle(int titleId) {
-        mToolbarTitle.setText(titleId);
+        binding.toolbarTitle.setText(titleId);
     }
 
     @Override
@@ -592,13 +596,13 @@ public class PostViewActivity extends BaseActivity implements
 
 
     public final static class FormattingToolbarManager implements View.OnClickListener {
-        @BindDimen(R.dimen.format_toolbar_height)   int mFormattingToolbarHeight;
+       // @BindDimen(R.dimen.format_toolbar_height)   int mFormattingToolbarHeight;
 
         final ViewGroup mFormattingToolbar;
         FormatOptionClickListener mFormatOptionClickListener = null;
 
         public FormattingToolbarManager(ViewGroup formattingToolbar) {
-            ButterKnife.bind(this, formattingToolbar);
+//            ButterKnife.bind(this, formattingToolbar);
             mFormattingToolbar = formattingToolbar;
             ViewGroup buttonContainer = mFormattingToolbar;
             while (buttonContainer.getChildAt(0) instanceof ViewGroup) {
@@ -610,6 +614,7 @@ public class PostViewActivity extends BaseActivity implements
         }
 
         public void translateToolbar(float offset) {
+           float mFormattingToolbarHeight =  mFormattingToolbar.getContext().getResources().getDimension(R.dimen.format_toolbar_height);
             mFormattingToolbar.setTranslationY(mFormattingToolbarHeight * offset);
         }
 
@@ -623,21 +628,17 @@ public class PostViewActivity extends BaseActivity implements
 
         @Override
         public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.format_bold:
-                    mFormatOptionClickListener.onFormatBoldClicked(v);
-                    break;
-                case R.id.format_italic:
-                    mFormatOptionClickListener.onFormatItalicClicked(v);
-                    break;
-                case R.id.format_link:
-                    mFormatOptionClickListener.onFormatLinkClicked(v);
-                    break;
-                case R.id.format_image:
-                    mFormatOptionClickListener.onFormatImageClicked(v);
-                    break;
-                default:
-                    throw new IllegalArgumentException("No listener method assigned to this view!");
+            int id = v.getId();
+            if (id == R.id.format_bold) {
+                mFormatOptionClickListener.onFormatBoldClicked(v);
+            } else if (id == R.id.format_italic) {
+                mFormatOptionClickListener.onFormatItalicClicked(v);
+            } else if (id == R.id.format_link) {
+                mFormatOptionClickListener.onFormatLinkClicked(v);
+            } else if (id == R.id.format_image) {
+                mFormatOptionClickListener.onFormatImageClicked(v);
+            } else {
+                throw new IllegalArgumentException("No listener method assigned to this view!");
             }
         }
     }

@@ -2,8 +2,10 @@ package me.vickychijwani.spectre.auth;
 
 import android.net.Uri;
 import android.net.UrlQuerySanitizer;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 
 public final class GhostAuth {
 

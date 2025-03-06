@@ -12,17 +12,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.ColorInt;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -36,18 +25,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindDimen;
-import butterknife.BindView;
-import butterknife.OnClick;
+
+//import me.vickychijwani.spectre.BuildConfig;
 import me.vickychijwani.spectre.BuildConfig;
 import me.vickychijwani.spectre.R;
 import me.vickychijwani.spectre.SpectreApplication;
 import me.vickychijwani.spectre.account.AccountManager;
+import me.vickychijwani.spectre.databinding.ActivityPostListBinding;
 import me.vickychijwani.spectre.error.SyncException;
 import me.vickychijwani.spectre.event.BlogSettingsLoadedEvent;
 import me.vickychijwani.spectre.event.CreatePostEvent;
@@ -72,6 +62,17 @@ import retrofit2.Response;
 import static me.vickychijwani.spectre.util.NetworkUtils.isConnectionError;
 import static me.vickychijwani.spectre.util.NetworkUtils.makePicassoUrl;
 
+import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 public class PostListActivity extends BaseActivity {
 
     private static final String TAG = "PostListActivity";
@@ -88,20 +89,24 @@ public class PostListActivity extends BaseActivity {
 
     // NOTE: very large timeout is needed for cases like initial sync on a blog with 100s of posts
     private static final int REFRESH_TIMEOUT = 5 * 60 * 1000;       // in milliseconds
-
-    @BindView(R.id.toolbar)                     Toolbar mToolbar;
+    private ActivityPostListBinding binding;
+ /*   @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     @BindView(R.id.app_bar_bg)                  View mAppBarBg;
     @BindView(R.id.user_image)                  ImageView mUserImageView;
     @BindView(R.id.user_blog_title)             TextView mBlogTitleView;
-    @BindView(R.id.swipe_refresh_layout)        SwipeRefreshLayout mSwipeRefreshLayout;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout mSwipeRefreshLayout;
     @BindView(R.id.post_list_container)         FrameLayout mPostListContainer;
-    @BindView(R.id.post_list)                   RecyclerView mPostList;
+    @BindView(R.id.post_list)
+    RecyclerView mPostList;
 
     @BindView(R.id.new_post_reveal)             View mNewPostRevealView;
-    @BindView(R.id.new_post_reveal_shrink)      View mNewPostRevealShrinkView;
-    @BindDimen(R.dimen.toolbar_height)      int mToolbarHeight;
-    @BindDimen(R.dimen.tabbar_height)       int mTabbarHeight;
-    @ColorInt private                       int mColorAccent;
+    @BindView(R.id.new_post_reveal_shrink)      View mNewPostRevealShrinkView;*/
+//    @BindDimen(R.dimen.toolbar_height)      int mToolbarHeight;
+//    @BindDimen(R.dimen.tabbar_height)       int mTabbarHeight;
+    @ColorInt
+    private                       int mColorAccent;
     @ColorInt private                       int mColorPrimary;
 
     @Override
@@ -121,8 +126,10 @@ public class PostListActivity extends BaseActivity {
             credentialsExpired();
         }
 
-        setLayout(R.layout.activity_post_list);
-        setSupportActionBar(mToolbar);
+        binding = ActivityPostListBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
+        // TODO: 27/02/2025
         if (BuildConfig.DEBUG) {
             SpectreApplication.getInstance().addDebugDrawer(this);
         }
@@ -133,24 +140,26 @@ public class PostListActivity extends BaseActivity {
 
         // constants for animation
         TypedValue typedColorValue = new TypedValue();
-        getTheme().resolveAttribute(R.attr.colorAccent, typedColorValue, true);
+        getTheme().resolveAttribute(R.color.status_deleted, typedColorValue, true);
+//        getTheme().resolveAttribute(R.attr.colorAccent, typedColorValue, true);
         mColorAccent = typedColorValue.data;
-        getTheme().resolveAttribute(R.attr.colorPrimary, typedColorValue, true);
+        getTheme().resolveAttribute(R.color.status_deleted, typedColorValue, true);
+//        getTheme().resolveAttribute(R.attr.colorPrimary, typedColorValue, true);
         mColorPrimary = typedColorValue.data;
 
         // initialize post list UI
         final String activeBlogUrl = AccountManager.getActiveBlogUrl();
         mPostAdapter = new PostAdapter(this, mPosts, activeBlogUrl, getPicasso(), v -> {
-            int pos = mPostList.getChildLayoutPosition(v);
+            int pos = binding.postList.getChildLayoutPosition(v);
             if (pos == RecyclerView.NO_POSITION) return;
             Post post = (Post) mPostAdapter.getItem(pos);
             if (! GhostApiUtils.INSTANCE.hasOnlyMarkdownCard(post.getMobiledoc())) {
-                Snackbar.make(mPostList, R.string.koenig_post_error,
+                Snackbar.make(binding.postList, R.string.koenig_post_error,
                         Snackbar.LENGTH_SHORT).show();
                 return;
             }
             if (post.isMarkedForDeletion()) {
-                Snackbar.make(mPostList, R.string.status_marked_for_deletion_open_error,
+                Snackbar.make(binding.postList, R.string.status_marked_for_deletion_open_error,
                         Snackbar.LENGTH_SHORT).show();
                 return;
             }
@@ -161,49 +170,49 @@ public class PostListActivity extends BaseActivity {
                     v.getWidth(), v.getHeight()).toBundle();
             startActivityForResult(intent, REQUEST_CODE_VIEW_POST, activityOptions);
         });
-        mPostList.setAdapter(mPostAdapter);
-        mPostList.setLayoutManager(new StaggeredGridLayoutManager(
+        binding.postList.setAdapter(mPostAdapter);
+        binding.postList.setLayoutManager(new StaggeredGridLayoutManager(
                 getResources().getInteger(R.integer.post_grid_num_columns),
                 StaggeredGridLayoutManager.VERTICAL));
-        mPostList.setItemAnimator(new DefaultItemAnimator());
+        binding.postList.setItemAnimator(new DefaultItemAnimator());
         int hSpace = getResources().getDimensionPixelOffset(R.dimen.card_grid_hspace);
         int vSpace = getResources().getDimensionPixelOffset(R.dimen.card_grid_vspace);
-        mPostList.addItemDecoration(new SpaceItemDecoration(hSpace, vSpace));
+        binding.postList.addItemDecoration(new SpaceItemDecoration(hSpace, vSpace));
 
         // use a fixed-width grid on large screens
         int screenWidth = DeviceUtils.getScreenWidth(this);
         int maxContainerWidth = getResources().getDimensionPixelSize(R.dimen.post_grid_max_width);
         if (screenWidth > maxContainerWidth) {
             int containerPadding = (screenWidth - maxContainerWidth) / 2;
-            ViewCompat.setPaddingRelative(mToolbar,
-                    ViewCompat.getPaddingStart(mToolbar) + containerPadding,
-                    mToolbar.getPaddingTop(),
-                    ViewCompat.getPaddingEnd(mToolbar) + containerPadding,
-                    mToolbar.getPaddingBottom());
-            ViewCompat.setPaddingRelative(mPostList,
-                    ViewCompat.getPaddingStart(mPostList) + containerPadding,
-                    mPostList.getPaddingTop(),
-                    ViewCompat.getPaddingEnd(mPostList) + containerPadding,
-                    mPostList.getPaddingBottom());
+            ViewCompat.setPaddingRelative(binding.toolbar,
+                    ViewCompat.getPaddingStart(binding.toolbar) + containerPadding,
+                    binding.toolbar.getPaddingTop(),
+                    ViewCompat.getPaddingEnd(binding.toolbar) + containerPadding,
+                    binding.toolbar.getPaddingBottom());
+            ViewCompat.setPaddingRelative(binding.postList,
+                    ViewCompat.getPaddingStart(binding.postList) + containerPadding,
+                    binding.postList.getPaddingTop(),
+                    ViewCompat.getPaddingEnd(binding.postList) + containerPadding,
+                    binding.postList.getPaddingBottom());
         }
 
         final Drawable appbarShadowDrawable;
         appbarShadowDrawable = ContextCompat.getDrawable(this, R.drawable.appbar_shadow);
-        mPostListContainer.setForeground(null);     // hide the shadow initially
-        mPostList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        binding.postListContainer.setForeground(null);     // hide the shadow initially
+        binding.postList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                int scrollY = mPostList.computeVerticalScrollOffset();
-                mAppBarBg.setTranslationY(-scrollY);
-                mPostListContainer.setForeground(scrollY <= 0 ? null : appbarShadowDrawable);
+                int scrollY = binding.postList.computeVerticalScrollOffset();
+                binding.appBarBg.setTranslationY(-scrollY);
+                binding.postListContainer.setForeground(scrollY <= 0 ? null : appbarShadowDrawable);
             }
         });
 
         mRefreshDataRunnable = () -> refreshData(false);
         mRefreshTimeoutRunnable = this::refreshTimedOut;
-        mSwipeRefreshLayout.setColorSchemeColors(mColorAccent, mColorPrimary);
-        mSwipeRefreshLayout.setOnRefreshListener(() -> refreshData(false));
+        binding.swipeRefreshLayout.setColorSchemeColors(mColorAccent, mColorPrimary);
+        binding.swipeRefreshLayout.setOnRefreshListener(() -> refreshData(false));
     }
 
     @Override
@@ -212,9 +221,9 @@ public class PostListActivity extends BaseActivity {
         // load cached data immediately
         refreshData(true);
         // reset views involved in new post animation
-        mNewPostRevealView.setVisibility(View.INVISIBLE);
-        mNewPostRevealShrinkView.setScaleY(1f);
-        mNewPostRevealShrinkView.setBackgroundColor(mColorAccent);
+        binding.newPostReveal.setVisibility(View.INVISIBLE);
+        binding.newPostRevealShrink.setScaleY(1f);
+        binding.newPostRevealShrink.setBackgroundColor(mColorAccent);
     }
 
     @Override
@@ -232,10 +241,10 @@ public class PostListActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mPostList != null) {
+        if (binding.postList != null) {
             // cancel any ongoing image requests, courtesy http://stackoverflow.com/a/33961706/504611
             // not doing this in onPause or onStop because there we wouldn't want to clear the list itself
-            mPostList.setAdapter(null);
+            binding.postList.setAdapter(null);
         }
         mRefreshDataRunnable = null;    // the runnable holds an implicit reference to the activity!
                                         // allow it to get GC'ed to avoid a memory leak
@@ -250,36 +259,35 @@ public class PostListActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_view_homepage:
-                startBrowserActivity(AccountManager.getActiveBlogUrl());
-                return true;
-            case R.id.action_refresh:
-                refreshData(false);
-                return true;
-            case R.id.action_about:
-                Intent aboutIntent = new Intent(this, AboutActivity.class);
-                startActivity(aboutIntent);
-                return true;
-            case R.id.action_logout:
-                getBus().post(new LogoutEvent(AccountManager.getActiveBlogUrl(), false));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_view_homepage) {
+            startBrowserActivity(AccountManager.getActiveBlogUrl());
+            return true;
+        } else if (itemId == R.id.action_refresh) {
+            refreshData(false);
+            return true;
+        } else if (itemId == R.id.action_about) {
+            Intent aboutIntent = new Intent(this, AboutActivity.class);
+            startActivity(aboutIntent);
+            return true;
+        } else if (itemId == R.id.action_logout) {
+            getBus().post(new LogoutEvent(AccountManager.getActiveBlogUrl(), false));
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_VIEW_POST && resultCode == PostViewActivity.RESULT_CODE_DELETED) {
-            Snackbar.make(mPostList, R.string.post_deleted, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(binding.postList, R.string.post_deleted, Snackbar.LENGTH_SHORT).show();
         }
     }
 
     @Subscribe
     public void onDataRefreshedEvent(DataRefreshedEvent event) {
-        mSwipeRefreshLayout.setRefreshing(false);
+        binding.swipeRefreshLayout.setRefreshing(false);
         cancelRefreshTimeout();
         scheduleDataRefresh();
 
@@ -319,7 +327,7 @@ public class PostListActivity extends BaseActivity {
                     .load(imageUrl)
                     .transform(new BorderedCircleTransformation())
                     .fit()
-                    .into(mUserImageView);
+                    .into(binding.userImage);
         } else {
             // As of Ghost v2.13.1 (possibly earlier), profile image is null if not set
             Log.w(TAG, "user image is null!");
@@ -334,7 +342,7 @@ public class PostListActivity extends BaseActivity {
                 blogTitle = setting.getValue();
             }
         }
-        mBlogTitleView.setText(blogTitle);
+        binding.userBlogTitle.setText(blogTitle);
     }
 
     @Subscribe
@@ -357,42 +365,45 @@ public class PostListActivity extends BaseActivity {
         mPostAdapter.notifyDataSetChanged();
     }
 
-    @OnClick(R.id.new_post_btn)
+//    @OnClick(R.id.new_post_btn)
     public void onNewPostBtnClicked(View btn) {
         Runnable createPost = () -> getBus().post(new CreatePostEvent());
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             // circular reveal animation
             int[] revealViewLocation = new int[2], btnLocation = new int[2];
-            mNewPostRevealView.getLocationOnScreen(revealViewLocation);
+            binding.newPostReveal.getLocationOnScreen(revealViewLocation);
             btn.getLocationOnScreen(btnLocation);
             int centerX = btnLocation[0] - revealViewLocation[0] + btn.getWidth()/2;
             int centerY = btnLocation[1] - revealViewLocation[1] + btn.getHeight()/2;
             float endRadius = (float) Math.hypot(centerX, centerY);
             Animator revealAnimator = ViewAnimationUtils.createCircularReveal(
-                    mNewPostRevealView, centerX, centerY, 0, endRadius);
+                    binding.newPostReveal, centerX, centerY, 0, endRadius);
             revealAnimator.setDuration(500);
             revealAnimator.setInterpolator(new AccelerateInterpolator());
-            mNewPostRevealView.setVisibility(View.VISIBLE);
+            binding.newPostReveal.setVisibility(View.VISIBLE);
 
             // background color animation
             ValueAnimator colorAnimator = ValueAnimator
                     .ofObject(new ArgbEvaluator(), mColorAccent, mColorPrimary);
             colorAnimator.addUpdateListener(animator ->
-                    mNewPostRevealShrinkView.setBackgroundColor((int) animator.getAnimatedValue()));
+                    binding.newPostRevealShrink.setBackgroundColor((int) animator.getAnimatedValue()));
             colorAnimator.setDuration(500);
             colorAnimator.setInterpolator(new AccelerateInterpolator());
 
             // shrink animation
-            float startHeight = mNewPostRevealShrinkView.getHeight();
-            float targetScaleY = (mToolbarHeight + mTabbarHeight) / startHeight;
-            ObjectAnimator shrinkAnimator = ObjectAnimator.ofFloat(mNewPostRevealShrinkView,
+            float startHeight = binding.newPostRevealShrink.getHeight();
+          /*  float mToolbarHeight =  mToolbarHeight.getContext().getResources().getDimension(R.dimen.toolbar_height);
+            float mTabbarHeight =  mTabbarHeight.getContext().getResources().getDimension(R.dimen.toolbar_height);
+*/
+//            float targetScaleY = (mToolbarHeight + mTabbarHeight) / startHeight;
+            /*ObjectAnimator shrinkAnimator = ObjectAnimator.ofFloat(binding.newPostRevealShrink,
                     "scaleY", targetScaleY);
             shrinkAnimator.setStartDelay(150);
             shrinkAnimator.setDuration(300);
-            shrinkAnimator.setInterpolator(new DecelerateInterpolator());
+            shrinkAnimator.setInterpolator(new DecelerateInterpolator());*/
 
             // play reveal + color change together, followed by shrink
-            AnimatorSet animatorSet = new AnimatorSet();
+           /* AnimatorSet animatorSet = new AnimatorSet();
             animatorSet.play(revealAnimator).with(colorAnimator);
             animatorSet.addListener(new AnimatorListenerAdapter() {
                 @Override
@@ -405,8 +416,8 @@ public class PostListActivity extends BaseActivity {
                     });
                     shrinkAnimator.start();
                 }
-            });
-            animatorSet.start();
+            });*/
+//            animatorSet.start();
         } else {
             createPost.run();
         }
@@ -480,7 +491,7 @@ public class PostListActivity extends BaseActivity {
 
     private void refreshTimedOut() {
         getBus().post(new ForceCancelRefreshEvent());
-        mSwipeRefreshLayout.setRefreshing(false);
+        binding.swipeRefreshLayout.setRefreshing(false);
         Toast.makeText(this, R.string.refresh_failed, Toast.LENGTH_LONG).show();
         scheduleDataRefresh();
     }

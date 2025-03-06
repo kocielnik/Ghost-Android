@@ -2,8 +2,10 @@ package me.vickychijwani.spectre.view;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import android.widget.FrameLayout;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
@@ -22,8 +24,7 @@ import me.vickychijwani.spectre.view.fragments.PasswordAuthFragment;
 
 public class LoginActivity extends BaseActivity implements
         CredentialSource,
-        LoginOrchestrator.Listener
-{
+        LoginOrchestrator.Listener {
 
     private final String TAG = "LoginActivity";
 
@@ -32,12 +33,13 @@ public class LoginActivity extends BaseActivity implements
     private final PublishSubject<String> mAuthCodeSubject = PublishSubject.create();
     // Rx subject for password auth
     private final PublishSubject<Pair<String, String>> mCredentialsSubject = PublishSubject.create();
+    FrameLayout fragment_container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setLayout(R.layout.activity_login);
-
+        setContentView(R.layout.activity_login);
+        fragment_container = findViewById(R.id.fragment_container);
         LoginOrchestrator.HACKListener hackListener = SpectreApplication.getInstance().getHACKListener();
         if (mLoginOrchestrator == null) {
             mLoginOrchestrator = LoginOrchestrator.create(this, hackListener);
@@ -124,10 +126,12 @@ public class LoginActivity extends BaseActivity implements
     }
 
     @Override
-    public void onStartWaiting() {}
+    public void onStartWaiting() {
+    }
 
     @Override
-    public void onBlogUrlError(LoginOrchestrator.ErrorType errorType, @NonNull Throwable error, @NonNull String blogUrl) {}
+    public void onBlogUrlError(LoginOrchestrator.ErrorType errorType, @NonNull Throwable error, @NonNull String blogUrl) {
+    }
 
     @Override
     public void onApiError(String error, boolean isEmailError) {

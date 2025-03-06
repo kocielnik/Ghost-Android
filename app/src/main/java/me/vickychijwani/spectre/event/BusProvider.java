@@ -1,6 +1,7 @@
 package me.vickychijwani.spectre.event;
 
-import android.support.annotation.RestrictTo;
+
+import androidx.annotation.RestrictTo;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;

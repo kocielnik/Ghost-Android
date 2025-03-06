@@ -7,7 +7,7 @@
     android:paddingBottom="@dimen/format_toolbar_height"
     tools:context=".view.PostViewActivity">
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/post_markdown_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -51,6 +51,6 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>

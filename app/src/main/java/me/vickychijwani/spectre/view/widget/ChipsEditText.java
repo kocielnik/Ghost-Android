@@ -4,9 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.AppCompatMultiAutoCompleteTextView;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -20,6 +17,10 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.MultiAutoCompleteTextView;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatMultiAutoCompleteTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,8 @@ import me.vickychijwani.spectre.util.DeviceUtils;
 public class ChipsEditText extends AppCompatMultiAutoCompleteTextView implements AdapterView.OnItemClickListener {
 
     private Pattern mTokenPattern;
-    @ColorInt private int mChipBgColor;
+    @ColorInt
+    private int mChipBgColor;
     @ColorInt private int mChipTextColor;
 
     public ChipsEditText(Context context) {

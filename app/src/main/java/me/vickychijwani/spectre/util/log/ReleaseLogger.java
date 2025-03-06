@@ -1,6 +1,6 @@
 package me.vickychijwani.spectre.util.log;
 
-import com.crashlytics.android.Crashlytics;
+
 
 final class ReleaseLogger extends Logger {
 
@@ -8,7 +8,7 @@ final class ReleaseLogger extends Logger {
     public void log(int priority, String tag, String message) {
         // log only INFO, WARN, ERROR and ASSERT levels
         if (priority >= android.util.Log.INFO) {
-            Crashlytics.log(priority, tag, message);
+
         }
     }
 
@@ -18,7 +18,7 @@ final class ReleaseLogger extends Logger {
         // android.util.Log.e directly here because we would like caught exceptions to also show up
         // in the logs of other exceptions, as they may be correlated.
         e("Exception", android.util.Log.getStackTraceString(error));
-        Crashlytics.logException(error);
+
     }
 
 }

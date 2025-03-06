@@ -2,12 +2,14 @@ package me.vickychijwani.spectre.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.ColorInt;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
+
 import android.text.TextUtils;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import java.util.Calendar;
 import java.util.Comparator;

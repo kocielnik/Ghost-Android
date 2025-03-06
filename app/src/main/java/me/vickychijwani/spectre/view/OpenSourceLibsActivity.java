@@ -2,27 +2,28 @@ package me.vickychijwani.spectre.view;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import me.vickychijwani.spectre.R;
+import me.vickychijwani.spectre.databinding.ActivityOpenSourceLibsBinding;
 import me.vickychijwani.spectre.util.AppUtils;
 
 public class OpenSourceLibsActivity extends BaseActivity {
-
+    private ActivityOpenSourceLibsBinding binding;
     private static final List<Library> LIBRARIES = Arrays.asList(
             new Library("ButterKnife", "Jake Wharton", "http://jakewharton.github.io/butterknife/"),
             new Library("DebugDrawer", "Mantas Palaima", "https://github.com/palaima/DebugDrawer"),
@@ -43,15 +44,17 @@ public class OpenSourceLibsActivity extends BaseActivity {
 
     private LibsAdapter mLibsAdapter;
 
-    @BindView(R.id.toolbar) Toolbar mToolbar;
-    @BindView(R.id.libs_list) RecyclerView mLibsList;
+/*    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.libs_list)
+    RecyclerView mLibsList;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setLayout(R.layout.activity_open_source_libs);
-
-        setSupportActionBar(mToolbar);
+        binding = ActivityOpenSourceLibsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        setSupportActionBar(binding.toolbar);
         //noinspection ConstantConditions
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -60,14 +63,14 @@ public class OpenSourceLibsActivity extends BaseActivity {
         Collections.sort(LIBRARIES, (lhs, rhs) -> lhs.name.compareTo(rhs.name));
 
         mLibsAdapter = new LibsAdapter(this, LIBRARIES, v -> {
-            int pos = mLibsList.getChildLayoutPosition(v);
+            int pos = binding.libsList.getChildLayoutPosition(v);
             if (pos == RecyclerView.NO_POSITION) return;
             Library library = mLibsAdapter.getItem(pos);
             AppUtils.openUri(this, library.url);
         });
-        mLibsList.setAdapter(mLibsAdapter);
-        mLibsList.setLayoutManager(new LinearLayoutManager(this));
-        mLibsList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+        binding.libsList.setAdapter(mLibsAdapter);
+        binding.libsList.setLayoutManager(new LinearLayoutManager(this));
+        binding.libsList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
     }
 
 
@@ -113,12 +116,15 @@ public class OpenSourceLibsActivity extends BaseActivity {
         }
 
         static class LibraryViewHolder extends RecyclerView.ViewHolder {
-            @BindView(R.id.lib_name) TextView name;
-            @BindView(R.id.lib_author) TextView author;
+          /*  @BindView(R.id.lib_name)*/ TextView name;
+            /*@BindView(R.id.lib_author)*/ TextView author;
 
             public LibraryViewHolder(@NonNull View view, View.OnClickListener clickListener) {
                 super(view);
-                ButterKnife.bind(this, view);
+
+                // Replacing ButterKnife with findViewById
+                name = itemView.findViewById(R.id.lib_name);
+                author = itemView.findViewById(R.id.lib_author);
                 view.setOnClickListener(clickListener);
             }
         }

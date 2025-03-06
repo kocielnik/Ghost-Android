@@ -62,7 +62,7 @@
 
 
     <!-- tags -->
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/post_tags_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
             android:imeOptions="actionDone"
             />
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:layout_width="match_parent"
@@ -98,7 +98,7 @@
 
 
     <!-- custom excerpt -->
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/post_excerpt_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -120,7 +120,7 @@
             android:imeOptions="actionDone"
             />
 
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <!-- make this post a page -->

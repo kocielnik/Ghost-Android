@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.PostListActivity">
@@ -11,21 +10,21 @@
         android:id="@+id/app_bar_bg"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_container_height"
-        android:background="?attr/colorPrimary"
-        />
+        android:background="?attr/colorPrimary" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            style="@style/MyToolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layoutDirection="locale"
-            style="@style/MyToolbar"
             tools:targetApi="jelly_bean_mr1">
+
 
             <ImageView
                 android:id="@+id/user_image"
@@ -33,8 +32,7 @@
                 android:layout_height="@dimen/toolbar_height"
                 android:contentDescription="@string/cdesc_user_image"
                 android:padding="@dimen/padding_default"
-                tools:src="@drawable/ic_launcher"
-                />
+                tools:src="@mipmap/ic_launcher" />
 
             <TextView
                 android:id="@+id/user_blog_title"
@@ -46,10 +44,9 @@
                 android:paddingLeft="@dimen/padding_default"
                 android:paddingRight="@dimen/padding_default"
                 android:text="@string/app_name"
-                tools:text="My Awesome Blog Title"
-                />
+                tools:text="My Awesome Blog Title" />
 
-        </android.support.v7.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
         <FrameLayout
             android:id="@+id/post_list_container"
@@ -59,43 +56,41 @@
 
             <!-- CoordinatorLayout needed to ensure the FAB gets correct margins -->
             <!-- and to ensure the FAB never overlaps a Snackbar -->
-            <android.support.design.widget.CoordinatorLayout
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <android.support.v4.widget.SwipeRefreshLayout
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                     android:id="@+id/swipe_refresh_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <android.support.v7.widget.RecyclerView
+                    <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/post_list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:clipToPadding="false"
-                        android:paddingBottom="@dimen/card_grid_fab_margin"
-                        android:paddingEnd="@dimen/card_grid_hmargin"
-                        android:paddingLeft="@dimen/card_grid_hmargin"
-                        android:paddingRight="@dimen/card_grid_hmargin"
                         android:paddingStart="@dimen/card_grid_hmargin"
+                        android:paddingLeft="@dimen/card_grid_hmargin"
                         android:paddingTop="@dimen/card_grid_vmargin"
+                        android:paddingEnd="@dimen/card_grid_hmargin"
+                        android:paddingRight="@dimen/card_grid_hmargin"
+                        android:paddingBottom="@dimen/card_grid_fab_margin"
                         android:scrollbarStyle="outsideOverlay"
                         android:scrollbars="vertical"
-                        tools:listitem="@layout/post_list_item"
-                        />
+                        tools:listitem="@layout/post_list_item" />
 
-                </android.support.v4.widget.SwipeRefreshLayout>
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-                <android.support.design.widget.FloatingActionButton
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/new_post_btn"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    app:srcCompat="@drawable/new_draft"
                     style="@style/MyFloatingActionButton"
-                    />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    app:srcCompat="@drawable/new_draft" />
 
-            </android.support.design.widget.CoordinatorLayout>
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
         </FrameLayout>
 
@@ -114,12 +109,11 @@
             android:id="@+id/new_post_reveal_shrink"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:elevation="@dimen/toolbar_elevation"
             android:background="?attr/colorAccent"
+            android:elevation="@dimen/toolbar_elevation"
             android:transformPivotX="0dp"
             android:transformPivotY="0dp"
-            tools:targetApi="lollipop"
-            />
+            tools:targetApi="lollipop" />
 
     </FrameLayout>
 

@@ -1,17 +1,18 @@
 package me.vickychijwani.spectre.view.fragments;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 
-import butterknife.BindView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import me.vickychijwani.spectre.R;
 import me.vickychijwani.spectre.auth.GhostAuth;
+import me.vickychijwani.spectre.databinding.FragmentGhostAuthBinding;
 import me.vickychijwani.spectre.view.BundleKeys;
 import me.vickychijwani.spectre.view.LoginActivity;
 import me.vickychijwani.spectre.util.log.Log;
@@ -20,8 +21,8 @@ public class GhostAuthFragment extends WebViewFragment {
 
     private static final String TAG = GhostAuthFragment.class.getSimpleName();
     private static final String KEY_REDIRECT_URI = "key:redirect_uri";
-
-    @BindView(R.id.progress) ProgressBar mLoadingProgress;
+    private FragmentGhostAuthBinding binding;
+//    @BindView(R.id.progress) ProgressBar mLoadingProgress;
 
     public static GhostAuthFragment newInstance(@NonNull GhostAuth.Params params) {
         GhostAuthFragment fragment = new GhostAuthFragment();
@@ -37,10 +38,9 @@ public class GhostAuthFragment extends WebViewFragment {
 
     @NonNull @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
-        bindView(view);
+        binding = FragmentGhostAuthBinding.inflate(inflater, container, false);
         setWebChromeClient(new ProgressWebChromeClient());
-        return view;
+        return binding.getRoot();
     }
 
     @Override
@@ -82,10 +82,10 @@ public class GhostAuthFragment extends WebViewFragment {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             if (newProgress < 100) {
-                mLoadingProgress.setVisibility(View.VISIBLE);
+                binding.progress.setVisibility(View.VISIBLE);
             } else {
                 // reset the progress bar on completion, effectively hiding it from view
-                mLoadingProgress.setVisibility(View.INVISIBLE);
+                binding.progress.setVisibility(View.INVISIBLE);
             }
         }
     }

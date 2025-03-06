@@ -2,9 +2,10 @@ package me.vickychijwani.spectre.view;
 
 import android.content.ContentResolver;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,7 +36,8 @@ public class Observables {
 
     public static final class FileUploadMetadata {
         public final InputStream inputStream;
-        @Nullable public final String filename;
+        @Nullable
+        public final String filename;
         public final String mimeType;
         public FileUploadMetadata(InputStream inputStream, @Nullable String filename,
                                   String mimeType) {

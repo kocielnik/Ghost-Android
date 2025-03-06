@@ -1,5 +1,6 @@
 package me.vickychijwani.spectre.model;
 
+
 import io.realm.annotations.RealmModule;
 import me.vickychijwani.spectre.model.entity.AuthToken;
 import me.vickychijwani.spectre.model.entity.ConfigurationParam;
@@ -24,4 +25,6 @@ import me.vickychijwani.spectre.model.entity.User;
         Tag.class,
         User.class
 })
-public class BlogDataModule {}
+public class BlogDataModule {
+
+}

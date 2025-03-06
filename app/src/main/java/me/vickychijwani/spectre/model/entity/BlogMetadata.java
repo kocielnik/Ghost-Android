@@ -2,6 +2,7 @@ package me.vickychijwani.spectre.model.entity;
 
 import android.util.Base64;
 
+
 import io.realm.RealmConfiguration;
 import io.realm.RealmModel;
 import io.realm.annotations.PrimaryKey;
@@ -14,6 +15,7 @@ import static me.vickychijwani.spectre.model.DBConfiguration.DATA_DB_SCHEMA_VERS
 
 @RealmClass
 public class BlogMetadata implements RealmModel {
+
 
     @PrimaryKey
     private String blogUrl;

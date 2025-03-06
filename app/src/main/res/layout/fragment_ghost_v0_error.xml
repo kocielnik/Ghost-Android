@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?attr/colorPrimary"
     android:gravity="center"
-    android:padding="@dimen/padding_huge"
-    android:background="?attr/colorPrimary">
+    android:padding="@dimen/padding_huge">
 
     <ImageView
         android:id="@+id/icon"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/ghost_sad_face"
-        />
+        app:srcCompat="@drawable/ghost_sad_face" />
 
     <TextView
         android:id="@+id/error_title"
@@ -24,9 +22,8 @@
         android:gravity="center"
         android:text="@string/ghost_v0_error_title"
         android:textAppearance="@style/TextAppearance.Large"
-        android:textStyle="bold"
         android:textColor="@color/text_primary_inverted"
-        />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/error_content"
@@ -36,8 +33,7 @@
         android:layout_marginTop="@dimen/padding_large"
         android:gravity="center"
         android:text="@string/ghost_v0_error_content"
-        android:textAppearance="@style/TextAppearance.Medium.Inverse"
-        />
+        android:textAppearance="@style/TextAppearance.Medium.Inverse" />
 
     <TextView
         android:id="@+id/error_tip"
@@ -48,8 +44,7 @@
         android:gravity="center"
         android:text="@string/ghost_v0_error_tip"
         android:textAppearance="@style/TextAppearance.Small.Dim"
-        android:textColor="@color/text_primary_inverted_dim"
-        />
+        android:textColor="@color/text_primary_inverted_dim" />
 
     <TextView
         android:id="@+id/error_legacy"
@@ -60,7 +55,6 @@
         android:gravity="center"
         android:text="@string/ghost_v0_error_legacy"
         android:textAppearance="@style/TextAppearance.Small.Dim"
-        android:textColor="@color/text_primary_inverted_dim"
-        />
+        android:textColor="@color/text_primary_inverted_dim" />
 
 </RelativeLayout>

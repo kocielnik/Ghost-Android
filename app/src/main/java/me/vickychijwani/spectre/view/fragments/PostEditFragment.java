@@ -10,12 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.PopupMenu;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -30,12 +24,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.PopupMenu;
+
 import com.github.slugify.Slugify;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.otto.Subscribe;
 
 import java.io.IOException;
 
-import butterknife.BindView;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -44,6 +44,8 @@ import io.realm.RealmList;
 import me.vickychijwani.spectre.BuildConfig;
 import me.vickychijwani.spectre.R;
 import me.vickychijwani.spectre.analytics.AnalyticsService;
+import me.vickychijwani.spectre.databinding.FragmentPasswordAuthBinding;
+import me.vickychijwani.spectre.databinding.FragmentPostEditBinding;
 import me.vickychijwani.spectre.error.FileUploadFailedException;
 import me.vickychijwani.spectre.error.UserEditsLostException;
 import me.vickychijwani.spectre.event.FileUploadErrorEvent;
@@ -77,7 +79,7 @@ import permissions.dispatcher.RuntimePermissions;
 @RuntimePermissions
 public class PostEditFragment extends BaseFragment implements
         FormatOptionClickListener {
-
+private FragmentPostEditBinding binding;
     private static final String TAG = "PostEditFragment";
     private static final String EDITOR_CURSOR_POS = "key:private:editor_cursor_pos";
 
@@ -93,9 +95,9 @@ public class PostEditFragment extends BaseFragment implements
         EXPLICITLY_UPDATE_SCHEDULED_POST,
     }
 
-    @BindView(R.id.post_title_edit)             EditText mPostTitleEditView;
+   /* @BindView(R.id.post_title_edit)             EditText mPostTitleEditView;
     @BindView(R.id.post_markdown)               EditText mPostEditView;
-
+*/
     private PostViewActivity mActivity;
     private PostSettingsManager mPostSettingsManager;
 
@@ -139,8 +141,8 @@ public class PostEditFragment extends BaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_post_edit, container, false);
-        bindView(view);
+        binding = FragmentPostEditBinding.inflate(inflater, container, false);
+//        bindView(view);
 
         mActivity = ((PostViewActivity) getActivity());
         mPostSettingsManager = mActivity;
@@ -171,12 +173,12 @@ public class PostEditFragment extends BaseFragment implements
         // title
         mActivity.setTitle(null);
         // hack for word wrap with "Done" IME action! see http://stackoverflow.com/a/13563946/504611
-        mPostTitleEditView.setHorizontallyScrolling(false);
-        mPostTitleEditView.setMaxLines(Integer.MAX_VALUE);
+        binding.postTitleEdit.setHorizontallyScrolling(false);
+        binding.postTitleEdit.setMaxLines(Integer.MAX_VALUE);
 
         setHasOptionsMenu(true);
 
-        return view;
+        return binding.getRoot();
     }
 
     @Override
@@ -193,7 +195,7 @@ public class PostEditFragment extends BaseFragment implements
         // Save the editor cursor pos. From onSaveInstanceState docs:
         // "There are no guarantees about whether it will occur before or after onPause()"
         // That's why we need to apply this defensive logic to save the position in all cases
-        int editorCursorPos = mPostEditView.getSelectionEnd();
+        int editorCursorPos = binding.postMarkdown.getSelectionEnd();
         if (editorCursorPos == 0 && mPostEditViewCursorPos > 0) {
             // if the current position is 0, use the last-known position, because the current pos
             // may have already been reset to 0 by the call to savePost in onPause()
@@ -222,7 +224,7 @@ public class PostEditFragment extends BaseFragment implements
         // remove pending callbacks
         mHandler.removeCallbacks(mSaveTimeoutRunnable);
         // note misc editor state before saving post, because setPost is called in onResume
-        mPostEditViewCursorPos = mPostEditView.getSelectionEnd();
+        mPostEditViewCursorPos = binding.postMarkdown.getSelectionEnd();
         // persist changes to disk, unless the user opted to discard those changes
         // workaround: do this ONLY if an image upload is NOT in progress - this is to avoid saving
         // the post prematurely and generating a spurious conflict that cannot be dealt with cleanly
@@ -288,8 +290,8 @@ public class PostEditFragment extends BaseFragment implements
     private void startMonitoringPostSettings() {
         if (mPostTextWatcher == null) {
             mPostTextWatcher = new PostTextWatcher();
-            mPostTitleEditView.addTextChangedListener(mPostTextWatcher);
-            mPostEditView.addTextChangedListener(mPostTextWatcher);
+            binding.postTitleEdit.addTextChangedListener(mPostTextWatcher);
+            binding.postMarkdown.addTextChangedListener(mPostTextWatcher);
         }
         // this is safe to do multiple times as it is idempotent (even though a new instance is created)
         mPostSettingsManager.setOnPostSettingsChangedListener(new PostSettingsChangedListener());
@@ -297,8 +299,8 @@ public class PostEditFragment extends BaseFragment implements
 
     private void stopMonitoringPostSettings() {
         if (mPostTextWatcher != null) {
-            mPostTitleEditView.removeTextChangedListener(mPostTextWatcher);
-            mPostEditView.removeTextChangedListener(mPostTextWatcher);
+            binding.postTitleEdit.removeTextChangedListener(mPostTextWatcher);
+            binding.postMarkdown.removeTextChangedListener(mPostTextWatcher);
             mPostTextWatcher = null;
         }
         // this is safe to do multiple times as it is idempotent
@@ -318,20 +320,20 @@ public class PostEditFragment extends BaseFragment implements
 
     @Override
     public void onFormatBoldClicked(View v) {
-        EditTextUtils.insertMarkdownBoldMarkers(new EditTextSelectionState(mPostEditView));
-        KeyboardUtils.focusAndShowKeyboard(mActivity, mPostEditView);
+        EditTextUtils.insertMarkdownBoldMarkers(new EditTextSelectionState(binding.postMarkdown));
+        KeyboardUtils.focusAndShowKeyboard(mActivity, binding.postMarkdown);
     }
 
     @Override
     public void onFormatItalicClicked(View v) {
-        EditTextUtils.insertMarkdownItalicMarkers(new EditTextSelectionState(mPostEditView));
-        KeyboardUtils.focusAndShowKeyboard(mActivity, mPostEditView);
+        EditTextUtils.insertMarkdownItalicMarkers(new EditTextSelectionState(binding.postMarkdown));
+        KeyboardUtils.focusAndShowKeyboard(mActivity, binding.postMarkdown);
     }
 
     @Override
     public void onFormatLinkClicked(View v) {
-        EditTextUtils.insertMarkdownLinkMarkers(new EditTextSelectionState(mPostEditView));
-        KeyboardUtils.focusAndShowKeyboard(mActivity, mPostEditView);
+        EditTextUtils.insertMarkdownLinkMarkers(new EditTextSelectionState(binding.postMarkdown));
+        KeyboardUtils.focusAndShowKeyboard(mActivity, binding.postMarkdown);
     }
 
     @Override
@@ -345,7 +347,7 @@ public class PostEditFragment extends BaseFragment implements
         }
 
         popupMenu.setOnMenuItemClickListener(item -> {
-            mMarkdownEditSelectionState = new EditTextSelectionState(mPostEditView);
+            mMarkdownEditSelectionState = new EditTextSelectionState(binding.postMarkdown);
             Action1<String> insertMarkdownAction = (imageUrl) -> {
                 EditTextUtils.insertMarkdownImageMarkers(imageUrl, mMarkdownEditSelectionState);
             };
@@ -354,8 +356,8 @@ public class PostEditFragment extends BaseFragment implements
             } else if (item.getItemId() == R.id.action_insert_image_upload) {
                 // the *WithCheck() method checks for runtime permissions and
                 // is generated by the PermissionsDispatcher library
-                PostEditFragmentPermissionsDispatcher.onInsertImageUploadClickedWithCheck(this,
-                        insertMarkdownAction);
+                /*PostEditFragmentPermissionsDispatcher.onInsertImageUploadClickedWithCheck(this,
+                        insertMarkdownAction);*/
             }
             return true;
         });
@@ -405,7 +407,7 @@ public class PostEditFragment extends BaseFragment implements
         imageUrlObservable.subscribe((imageUrl) -> {
             resultAction.call(imageUrl);
             mMarkdownEditSelectionState = null;
-            KeyboardUtils.focusAndShowKeyboard(mActivity, mPostEditView);
+            KeyboardUtils.focusAndShowKeyboard(mActivity, binding.postMarkdown);
         });
     }
 
@@ -492,7 +494,7 @@ public class PostEditFragment extends BaseFragment implements
             mImageUploadDoneAction = null;
         }
         mMarkdownEditSelectionState = null;
-        KeyboardUtils.focusAndShowKeyboard(mActivity, mPostEditView);
+        KeyboardUtils.focusAndShowKeyboard(mActivity, binding.postMarkdown);
     }
 
     @Subscribe
@@ -570,8 +572,8 @@ public class PostEditFragment extends BaseFragment implements
     // returns true if a network call is pending, false otherwise
     private boolean savePost(boolean persistChanges, boolean isAutoSave,
                              @Nullable @Post.Status String newStatus) {
-        mPost.setTitleFromPostEditor(mPostTitleEditView.getText().toString());
-        mPost.setMarkdown(mPostEditView.getText().toString());
+        mPost.setTitleFromPostEditor(binding.postTitleEdit.getText().toString());
+        mPost.setMarkdown(binding.postMarkdown.getText().toString());
         mPost.setHtml(null);   // omit stale HTML from request body
         mPost.setTags(mPostSettingsManager.getTags());
         mPost.setCustomExcerpt(mPostSettingsManager.getCustomExcerpt());
@@ -657,7 +659,7 @@ public class PostEditFragment extends BaseFragment implements
                     // published and then unpublished earlier).
                     if (Post.PUBLISHED.equals(finalTargetStatus)) {
                         // update the title in memory first, from the latest value in UI
-                        mPost.setTitleFromPostEditor(mPostTitleEditView.getText().toString());
+                        mPost.setTitleFromPostEditor(binding.postTitleEdit.getText().toString());
                         mPost.setSlug(new Slugify().slugify(mPost.getTitle()));
                     }
                     saveToServerExplicitly(finalTargetStatus);
@@ -776,12 +778,12 @@ public class PostEditFragment extends BaseFragment implements
             mOriginalPost = new Post(post);             // store a copy for calculating diff later
             mLastSavedPost = new Post(mOriginalPost);   // the original is obviously already "saved"
         }
-        mPostTitleEditView.setText(post.getTitleForPostEditor());
-        mPostEditView.setText(post.getMarkdown());
+        binding.postTitleEdit.setText(post.getTitleForPostEditor());
+        binding.postMarkdown.setText(post.getMarkdown());
         if (mPostEditViewCursorPos >= 0
                 // cursor pos is == length, when it's at the very end
-                && mPostEditViewCursorPos <= mPostEditView.getText().length()) {
-            mPostEditView.setSelection(mPostEditViewCursorPos);
+                && mPostEditViewCursorPos <= binding.postMarkdown.getText().length()) {
+            binding.postMarkdown.setSelection(mPostEditViewCursorPos);
         }
     }
 

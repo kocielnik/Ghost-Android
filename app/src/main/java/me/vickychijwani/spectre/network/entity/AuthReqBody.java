@@ -1,6 +1,7 @@
 package me.vickychijwani.spectre.network.entity;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 

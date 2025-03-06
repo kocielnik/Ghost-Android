@@ -5,13 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.NavUtils;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.browser.customtabs.CustomTabsIntent;
+import androidx.core.app.NavUtils;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
@@ -20,7 +22,6 @@ import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.util.List;
 
-import butterknife.ButterKnife;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import me.vickychijwani.spectre.R;
@@ -58,7 +59,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void setLayout(int layoutResID) {
         super.setContentView(layoutResID);
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
     }
 
     @Override

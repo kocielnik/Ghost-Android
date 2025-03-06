@@ -2,7 +2,8 @@ package me.vickychijwani.spectre.network;
 
 import android.os.Build;
 import android.os.StatFs;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;

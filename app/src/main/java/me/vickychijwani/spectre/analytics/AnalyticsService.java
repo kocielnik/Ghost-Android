@@ -1,11 +1,10 @@
 package me.vickychijwani.spectre.analytics;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
-import com.crashlytics.android.answers.LoginEvent;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 
@@ -59,8 +58,7 @@ public class AnalyticsService {
             ghostVersion = "Unknown";
         }
         Log.i(TAG, "GHOST VERSION = %s", ghostVersion);
-        Answers.getInstance().logCustom(new CustomEvent("Ghost Version")
-                .putCustomAttribute("version", ghostVersion));
+
     }
 
     private static void logLogin(@Nullable String blogUrl, boolean success) {
@@ -69,34 +67,31 @@ public class AnalyticsService {
         }
         String successStr = success ? "SUCCEEDED" : "FAILED";
         Log.i(TAG, "LOGIN %s, BLOG URL = %s", successStr, blogUrl);
-        Answers.getInstance().logLogin(new LoginEvent()
-                .putCustomAttribute("URL", blogUrl)
-                .putSuccess(success));
+
     }
 
     public static void logGhostV0Error() {
         Log.i(TAG, "GHOST VERSION 0.x ERROR - UPGRADE REQUIRED");
-        Answers.getInstance().logCustom(new CustomEvent("Ghost v0.x error"));
+
     }
 
     @Subscribe
     public void onLogoutStatusEvent(LogoutStatusEvent logoutEvent) {
         if (logoutEvent.succeeded) {
             Log.i(TAG, "LOGOUT SUCCEEDED");
-            Answers.getInstance().logCustom(new CustomEvent("Logout"));
+
         }
     }
 
     public static void logMetadataDbSchemaVersion(@NonNull String metadataDbSchemaVersion) {
         Log.i(TAG, "METADATA DB SCHEMA VERSION = %s", metadataDbSchemaVersion);
-        Answers.getInstance().logCustom(new CustomEvent("Metadata DB Schema Version")
-                .putCustomAttribute("version", metadataDbSchemaVersion));
+/*        Answers.getInstance().logCustom(new CustomEvent("Metadata DB Schema Version")
+                .putCustomAttribute("version", metadataDbSchemaVersion));*/
     }
 
     public static void logDbSchemaVersion(@NonNull String dbSchemaVersion) {
         Log.i(TAG, "DB SCHEMA VERSION = %s", dbSchemaVersion);
-        Answers.getInstance().logCustom(new CustomEvent("DB Schema Version")
-                .putCustomAttribute("version", dbSchemaVersion));
+
     }
 
 
@@ -159,14 +154,7 @@ public class AnalyticsService {
     }
 
     private static void logPostAction(@NonNull String postAction, @Nullable String postUrl) {
-        CustomEvent postStatsEvent = new CustomEvent("Post Actions")
-                .putCustomAttribute("Scenario", postAction);
-        if (postUrl != null) {
-            // FIXME this is a huge hack, also Fabric only shows 10 of these per day
-            postStatsEvent.putCustomAttribute("URL", postUrl);
-        }
-        Log.i(TAG, "POST ACTION: %s", postAction);
-        Answers.getInstance().logCustom(postStatsEvent);
+
     }
 
 

@@ -1,6 +1,7 @@
 package me.vickychijwani.spectre.event;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 public class GhostVersionLoadedEvent {
 

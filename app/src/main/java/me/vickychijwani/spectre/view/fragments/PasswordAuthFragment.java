@@ -2,8 +2,6 @@ package me.vickychijwani.spectre.view.fragments;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -17,10 +15,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.BindView;
-import butterknife.OnClick;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import me.vickychijwani.spectre.R;
 import me.vickychijwani.spectre.auth.LoginOrchestrator;
+import me.vickychijwani.spectre.databinding.FragmentLoginUrlBinding;
+import me.vickychijwani.spectre.databinding.FragmentPasswordAuthBinding;
 import me.vickychijwani.spectre.util.AppUtils;
 import me.vickychijwani.spectre.util.KeyboardUtils;
 import me.vickychijwani.spectre.util.Listenable;
@@ -33,7 +34,8 @@ public class PasswordAuthFragment extends BaseFragment implements
         TextView.OnEditorActionListener,
         LoginOrchestrator.Listener
 {
-
+private FragmentPasswordAuthBinding binding;
+/*
     @BindView(R.id.email)                   EditText mEmailView;
     @BindView(R.id.email_error)             TextView mEmailErrorView;
     @BindView(R.id.password)                EditText mPasswordView;
@@ -41,6 +43,7 @@ public class PasswordAuthFragment extends BaseFragment implements
     @BindView(R.id.login_help_tip)          TextView mLoginHelpTipView;
     @BindView(R.id.sign_in_btn)             View mSignInBtn;
     @BindView(R.id.progress)                ProgressBar mProgress;
+*/
 
     private Listenable<LoginOrchestrator.Listener> mLoginOrchestrator = null;
 
@@ -55,12 +58,12 @@ public class PasswordAuthFragment extends BaseFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_password_auth, container, false);
-        bindView(view);
-        mPasswordView.setOnEditorActionListener(this);
+        binding = FragmentPasswordAuthBinding.inflate(inflater, container, false);
+//        bindView(view);
+        binding.password.setOnEditorActionListener(this);
 
-        final String loginHelpTip = mLoginHelpTipView.getText().toString();
-        AppUtils.setHtmlWithLinkClickHandler(mLoginHelpTipView, loginHelpTip, (url) -> {
+        final String loginHelpTip = binding.loginHelpTip.getText().toString();
+        AppUtils.setHtmlWithLinkClickHandler(binding.loginHelpTip, loginHelpTip, (url) -> {
             if ("login-help".equals(url)) {
                 AppUtils.openUri(PasswordAuthFragment.this, AboutActivity.URL_COMMUNITY);
             } else {
@@ -68,13 +71,14 @@ public class PasswordAuthFragment extends BaseFragment implements
             }
         });
 
-        return view;
+        return binding.getRoot();
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        KeyboardUtils.focusAndShowKeyboard(getActivity(), mEmailView);
+        KeyboardUtils.focusAndShowKeyboard(getActivity(), binding.email);
         mLoginOrchestrator = ((LoginActivity) getActivity()).getLoginOrchestratorListenable();
     }
 
@@ -103,25 +107,25 @@ public class PasswordAuthFragment extends BaseFragment implements
         return false;
     }
 
-    @OnClick(R.id.email_layout)
+   /* @OnClick(R.id.email_layout)*/
     public void onEmailLayoutClicked() {
-        KeyboardUtils.focusAndShowKeyboard(getActivity(), mEmailView);
+        KeyboardUtils.focusAndShowKeyboard(getActivity(), binding.email);
     }
 
-    @OnClick(R.id.password_layout)
+//    @OnClick(R.id.password_layout)
     public void onPasswordLayoutClicked() {
-        KeyboardUtils.focusAndShowKeyboard(getActivity(), mPasswordView);
+        KeyboardUtils.focusAndShowKeyboard(getActivity(), binding.password);
     }
 
-    @OnClick(R.id.sign_in_btn)
+//    @OnClick(R.id.sign_in_btn)
     public void onSignInClicked() {
         if (! NetworkUtils.isConnected(getActivity())) {
             Toast.makeText(getActivity(), R.string.no_internet_connection, Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String email = mEmailView.getText().toString().trim();
-        String password = mPasswordView.getText().toString().trim();
+        String email = binding.email.getText().toString().trim();
+        String password = binding.password.getText().toString().trim();
 
         boolean hasError = false;
         View focusView = null;
@@ -129,11 +133,11 @@ public class PasswordAuthFragment extends BaseFragment implements
         // check for a valid email address
         if (TextUtils.isEmpty(email)) {
             showEmailError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+            focusView = binding.email;
             hasError = true;
         } else if (! isEmailValid(email)) {
             showEmailError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
+            focusView = binding.email;
             hasError = true;
         } else {
             showEmailError(null);
@@ -142,7 +146,7 @@ public class PasswordAuthFragment extends BaseFragment implements
         // check for a non-empty password
         if (TextUtils.isEmpty(password)) {
             showPasswordError(getString(R.string.error_field_required));
-            focusView = mPasswordView;
+            focusView = binding.password;
             hasError = true;
         } else {
             showPasswordError(null);
@@ -172,11 +176,11 @@ public class PasswordAuthFragment extends BaseFragment implements
     @Override
     public void onApiError(String error, boolean isEmailError) {
         stopWaiting();
-        EditText errorView = mPasswordView;
-        TextView errorMsgView = mPasswordErrorView;
+        EditText errorView = binding.password;
+        TextView errorMsgView = binding.passwordError;
         if (isEmailError) {
-            errorView = mEmailView;
-            errorMsgView = mEmailErrorView;
+            errorView = binding.email;
+            errorMsgView = binding.emailError;
         }
         errorView.setSelection(errorView.getText().length());
         KeyboardUtils.focusAndShowKeyboard(getActivity(), errorView);
@@ -187,7 +191,7 @@ public class PasswordAuthFragment extends BaseFragment implements
             errorMsgView.setText(Html.fromHtml(error));
         }
         // show the help tip, and let it stay there; no need to hide it again
-        mLoginHelpTipView.setVisibility(View.VISIBLE);
+        binding.loginHelpTip.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -222,43 +226,43 @@ public class PasswordAuthFragment extends BaseFragment implements
         allowInput(false);
         showEmailError(null);
         showPasswordError(null);
-        mProgress.setVisibility(View.VISIBLE);
-        mSignInBtn.setVisibility(View.INVISIBLE);
+        binding.progress.setVisibility(View.VISIBLE);
+        binding.signInBtn.setVisibility(View.INVISIBLE);
     }
 
     private void stopWaiting() {
         allowInput(true);
-        mProgress.setVisibility(View.INVISIBLE);
-        mSignInBtn.setVisibility(View.VISIBLE);
+        binding.progress.setVisibility(View.INVISIBLE);
+        binding.signInBtn.setVisibility(View.VISIBLE);
     }
 
     private void allowInput(boolean allow) {
-        mEmailView.setEnabled(allow);
-        mPasswordView.setEnabled(allow);
-        mSignInBtn.setEnabled(allow);
+        binding.email.setEnabled(allow);
+        binding.password.setEnabled(allow);
+        binding.signInBtn.setEnabled(allow);
         if (!allow) {
             // hide the help tip since it contains a clickable link
-            mLoginHelpTipView.setVisibility(View.INVISIBLE);
+            binding.loginHelpTip.setVisibility(View.INVISIBLE);
         }
     }
 
     private void showEmailError(@Nullable String error) {
         if (error == null || error.isEmpty()) {
-            mEmailErrorView.setText("");
-            mEmailErrorView.setVisibility(View.GONE);
+            binding.emailError.setText("");
+            binding.emailError.setVisibility(View.GONE);
         } else {
-            mEmailErrorView.setText(error);
-            mEmailErrorView.setVisibility(View.VISIBLE);
+            binding.emailError.setText(error);
+            binding.emailError.setVisibility(View.VISIBLE);
         }
     }
 
     private void showPasswordError(@Nullable String error) {
         if (error == null || error.isEmpty()) {
-            mPasswordErrorView.setText("");
-            mPasswordErrorView.setVisibility(View.INVISIBLE);
+            binding.passwordError.setText("");
+            binding.passwordError.setVisibility(View.INVISIBLE);
         } else {
-            mPasswordErrorView.setText(error);
-            mPasswordErrorView.setVisibility(View.VISIBLE);
+            binding.passwordError.setText(error);
+            binding.passwordError.setVisibility(View.VISIBLE);
         }
     }
 

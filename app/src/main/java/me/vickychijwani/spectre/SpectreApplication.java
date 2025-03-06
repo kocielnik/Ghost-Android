@@ -3,11 +3,7 @@ package me.vickychijwani.spectre;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.Answers;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.otto.DeadEvent;
 import com.squareup.otto.Subscribe;
@@ -16,7 +12,6 @@ import com.tsengvn.typekit.Typekit;
 
 import java.io.File;
 
-import io.fabric.sdk.android.Fabric;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -34,6 +29,9 @@ import okhttp3.OkHttpClient;
 import retrofit2.Response;
 
 import static me.vickychijwani.spectre.model.DBConfiguration.METADATA_DB_SCHEMA_VERSION;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class SpectreApplication extends Application {
 
@@ -56,7 +54,7 @@ public class SpectreApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        Fabric.with(this, new Crashlytics(), new Answers());
+//        Fabric.with(this, new Crashlytics(), new Answers());
         Log.useEnvironment(BuildConfig.DEBUG ? Log.Environment.DEBUG : Log.Environment.RELEASE);
         Log.i(TAG, "APP LAUNCHED");
 
@@ -86,7 +84,7 @@ public class SpectreApplication extends Application {
                 .migration(new BlogMetadataDBMigration())
                 .build();
         Realm.setDefaultConfiguration(config);
-        AnalyticsService.logMetadataDbSchemaVersion(String.valueOf(METADATA_DB_SCHEMA_VERSION));
+//        AnalyticsService.logMetadataDbSchemaVersion(String.valueOf(METADATA_DB_SCHEMA_VERSION));
     }
 
     private void setupFonts() {
@@ -140,7 +138,8 @@ public class SpectreApplication extends Application {
         // no-op, overridden in debug build
     }
 
-    @Nullable protected static File createCacheDir(Context context) {
+    @Nullable
+    protected static File createCacheDir(Context context) {
         File cacheDir = context.getApplicationContext().getExternalCacheDir();
         if (cacheDir == null) {
             cacheDir = context.getApplicationContext().getCacheDir();

@@ -86,7 +86,7 @@
             android:layout_marginRight="@dimen/padding_large"
             android:layout_marginEnd="@dimen/padding_large"
             tools:text="An error occurred"
-            android:textColor="?attr/textColorError"
+            android:textColor="@color/status_published_auto_saved"
             />
 
         <TextView

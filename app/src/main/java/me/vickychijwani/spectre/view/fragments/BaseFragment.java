@@ -2,18 +2,17 @@ package me.vickychijwani.spectre.view.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.squareup.otto.Bus;
 import com.squareup.picasso.Picasso;
 
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import me.vickychijwani.spectre.SpectreApplication;
 import me.vickychijwani.spectre.event.BusProvider;
 import me.vickychijwani.spectre.util.log.Log;
@@ -24,7 +23,7 @@ public abstract class BaseFragment extends Fragment {
     private static final String TAG = "BaseFragment";
 
     private final String mClassName;
-    private Unbinder mUnbinder = null;
+//    private Unbinder mUnbinder = null;
 
     protected Bus getBus() {
         return BusProvider.getBus();
@@ -44,16 +43,16 @@ public abstract class BaseFragment extends Fragment {
         // Unbinding is needed for derived classes 2 or more levels down the inheritance chain,
         // because each class in the chain may call bindView() independently. Moreover, unbinding
         // and re-binding does not pose a problem because ButterKnife also binds base class fields.
-        unbindView();
-        mUnbinder = ButterKnife.bind(this, view);
+//        unbindView();
+//        mUnbinder = ButterKnife.bind(this, view);
     }
 
-    private void unbindView() {
+ /*   private void unbindView() {
         if (mUnbinder != null) {
             mUnbinder.unbind();
             mUnbinder = null;
         }
-    }
+    }*/
 
     @Nullable
     @Override
@@ -73,11 +72,11 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (mUnbinder == null) {
+       /* if (mUnbinder == null) {
             throw new IllegalStateException("You forgot to call bindView() in " + mClassName +
                     "#onCreateView(). This is required in order to unbind Fragment views. See " +
                     "http://jakewharton.github.io/butterknife/#reset");
-        }
+        }*/
         Log.i(Log.Tag.LIFECYCLE, "%s#onResume()", mClassName);
     }
 
@@ -110,7 +109,7 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         Log.i(Log.Tag.LIFECYCLE, "%s#onDestroyView()", mClassName);
-        unbindView();
+//        unbindView();
     }
 
     @Override

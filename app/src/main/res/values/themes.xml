@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- main -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
@@ -12,7 +12,7 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="windowActionModeOverlay">true</item>
-        <item name="actionBarSize">@dimen/toolbar_height</item>
+            <item name="actionBarSize">@dimen/toolbar_height</item>
 
         <!-- widgets -->
         <item name="android:checkboxStyle">@style/MyCheckBox</item>
@@ -29,7 +29,7 @@
         <item name="android:textColorSecondaryInverse">@color/text_secondary</item>
         <item name="android:textColorTertiaryInverse">@color/text_tertiary</item>
         <item name="android:textColorHint">@color/text_primary_inverted_dim</item>
-        <item name="textColorError">@color/login_error</item>
+
     </style>
 
     <style name="CardListActivityTheme" parent="AppTheme">

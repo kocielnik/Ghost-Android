@@ -1,8 +1,9 @@
 package me.vickychijwani.spectre.network;
 
 import android.annotation.SuppressLint;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -864,7 +865,7 @@ public class NetworkService implements
         });
     }
 
-    @Subscribe
+ /*   @Subscribe
     public void onLoadTagsEvent(LoadTagsEvent event) {
         RealmResults<Tag> tags = mRealm.where(Tag.class).findAllSorted("name");
         List<Tag> tagsCopy = new ArrayList<>(tags.size());
@@ -873,7 +874,7 @@ public class NetworkService implements
         }
         getBus().post(new TagsLoadedEvent(tagsCopy));
     }
-
+*/
     @Subscribe
     public void onLogoutEvent(LogoutEvent event) {
         if (!event.forceLogout) {

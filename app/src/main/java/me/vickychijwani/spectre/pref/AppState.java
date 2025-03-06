@@ -1,7 +1,8 @@
 package me.vickychijwani.spectre.pref;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 /**
  * Utility class to persist global app state (like first-run status, etc). Do NOT use this for
