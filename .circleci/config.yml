@@ -5,6 +5,10 @@ jobs:
   build:
     environment:
       TARGET_SDK_VERSION: 32
+      JAVA_VERSION: 17
+      JAVA_HOME: /usr/lib/jvm/java-${JAVA_VERSION}-openjdk-amd64
+      JDK_HOME: ${JAVA_HOME}
+      JRE_HOME: ${JDK_HOME}
 
     # https://circleci.com/docs/2.0/configuration-reference/#docker--machine-executor
     docker:
@@ -21,7 +25,7 @@ jobs:
 
       - run:
           name: Download Dependencies
-          command: ./gradlew androidDependencies
+          command: ls /usr/lib/jvm/java-* && ./gradlew androidDependencies
 
       # https://circleci.com/docs/2.0/configuration-reference/#save_cache
       - save_cache:
