@@ -1,4 +1,4 @@
-FROM circleci/android:api-26-alpha
+FROM cimg/android:2025.03
 
 ARG USER=circleci
 USER ${USER}
