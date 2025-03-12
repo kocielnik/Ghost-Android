@@ -7,6 +7,12 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    services:
+      ghost:
+        image: ghost:2-alpine
+        ports:
+          - 2368:2368
+
     steps:
     - uses: actions/checkout@v4
     - name: set up JDK 17
