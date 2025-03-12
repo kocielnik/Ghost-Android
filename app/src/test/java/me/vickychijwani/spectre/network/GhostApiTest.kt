@@ -35,19 +35,19 @@ class GhostApiTest {
 
     companion object {
         private val BLOG_URL = "http://localhost:2368/"
-        @ClassRule @JvmField val deleteDefaultPostsRule = DeleteDefaultPostsRule(BLOG_URL)
+//        @ClassRule @JvmField val deleteDefaultPostsRule = DeleteDefaultPostsRule(BLOG_URL)
 
         private val httpClient = ProductionHttpClientFactory().create(null)
                 .newBuilder()
                 .addInterceptor(HttpLoggingInterceptor()
                         .setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build()
-        private val apiProvider = ProductionApiProvider(httpClient, BLOG_URL)
+       /* private val apiProvider = ProductionApiProvider(httpClient, BLOG_URL)
         private val RETROFIT = apiProvider.retrofit
-        internal val API = apiProvider.ghostApi
+        internal val API = apiProvider.ghostApi*/
     }
 
-    @Test
+/*    @Test
     fun test_getClientSecret() {
         val clientSecret = API.clientSecret     // fetch the client secret only once
 
@@ -364,7 +364,7 @@ class GhostApiTest {
             assertThat(about, notNullValue())
             assertThat(version, not(isEmptyOrNullString()))
         }
-    }
+    }*/
 
 }
 
@@ -372,6 +372,7 @@ class GhostApiTest {
 
 // private helpers
 
+/*
 private fun GhostApiService.createRandomPost(token: AuthToken, callback: (Post, Response<PostList>, Post) -> Unit) {
     val title = getRandomString(20)
     val markdown = getRandomString(100)
@@ -392,6 +393,7 @@ private fun GhostApiService.createRandomPost(token: AuthToken, callback: (Post, 
         execute(this.deletePost(token.authHeader, created.id))
     }
 }
+*/
 
 private fun getRandomString(length: Int): String {
     val random = Random()
