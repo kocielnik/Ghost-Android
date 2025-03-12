@@ -29,7 +29,13 @@ jobs:
       run: ./gradlew assembleDebug
 
     - name: Setup Ghost
-      run: curl -vvvv --fail -d 'setup[0][name]=User' -d 'setup[0][email]=user@example.com' -d 'setup[0][password]=randomtestpwd' -d 'setup[0][blogTitle]=My Blog' http://localhost:2368/ghost/api/v0.1/authentication/setup/
+      run: |
+        curl -vvvv --fail \
+          -d 'setup[0][name]=User' \
+          -d 'setup[0][email]=user@example.com' \
+          -d 'setup[0][password]=randomtestpwd' \
+          -d 'setup[0][blogTitle]=My Blog' \
+          http://ghost:2368/ghost/api/v0.1/authentication/setup/
 
     - name: Run tests
       run: ./gradlew testDebug -PdisablePreDex --console=plain
