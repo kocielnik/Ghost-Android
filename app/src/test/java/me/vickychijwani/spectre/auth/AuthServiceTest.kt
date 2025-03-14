@@ -40,7 +40,7 @@ class AuthServiceTest {
     @Before
     fun setupMocks() {
         // source must be == sink because of the limitation in AuthService#loginAgain
-        val credSourceAndSink = mock(AuthStore::class.java)
+        val credSourceAndSink = mock(AuthStore.class)
         credSource = credSourceAndSink
         credSink = credSourceAndSink
         listener = mock(Listener::class.java)
