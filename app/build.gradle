@@ -44,6 +44,8 @@ android {
     }
     packagingOptions {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
+        // Unable to strip the following libraries, packaging them as they are:
+        jniLibs.keepDebugSymbols.add("**/librealm-jni.so")
     }
 }
 
