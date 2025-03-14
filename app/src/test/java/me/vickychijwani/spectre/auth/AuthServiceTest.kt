@@ -43,7 +43,7 @@ class AuthServiceTest {
         val credSourceAndSink = AuthStore()
         credSource = credSourceAndSink
         credSink = credSourceAndSink
-        listener = Listener()
+        listener = mock(Listener::class.java)
     }
 
 
