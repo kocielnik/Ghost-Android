@@ -71,7 +71,7 @@ class NetworkBlogUrlValidatorTest {
             checkGhostBlog(blogUrl, httpClient)
             fail("Test did not throw exception as expected!")
         } catch (e: Exception) {
-            println(e.class)
+            println(e)
             //assertThat(e, instanceOf(UrlNotFoundException::class.java))
         }
     }
