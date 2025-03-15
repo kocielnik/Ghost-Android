@@ -47,8 +47,11 @@ class NetworkBlogUrlValidatorTest {
         server.enqueue(MockResponse())
         val blogUrl = "$HTTPS${server.hostName}:${server.port}"
         val httpClient = Helpers.prodHttpClient
+        val actualUrl = checkGhostBlog(blogUrl, httpClient)
 
-        //assertThat(checkGhostBlog(blogUrl, httpClient), `is`(blogUrl))
+        println(actualUrl)
+
+        assertEquals(actualUrl, blogUrl)
     }
 
     @Test
