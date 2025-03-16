@@ -9,6 +9,7 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.hamcrest.Matchers.*
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertThat
 import org.junit.Assert.fail
 import org.junit.Before
