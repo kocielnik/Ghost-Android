@@ -11,6 +11,7 @@ let
 in
 pkgs.mkShell {
   buildInputs = with pkgs; [
+    aapt
     androidSdk
     glibc
     gradle_8
@@ -19,8 +20,6 @@ pkgs.mkShell {
     neovim
   ];
   LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive";
-  # override the aapt2 that gradle uses with the nix-shipped version
-  GRADLE_OPTS = "-Dorg.gradle.project.android.aapt2FromMavenOverride=${androidSdk}/libexec/android-sdk/build-tools/28.0.3/aapt2";
   TARGET_SDK_VERSION = 34;
   ANDROID_HOME="android-sdk";
 }
