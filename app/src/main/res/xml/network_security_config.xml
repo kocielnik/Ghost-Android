@@ -6,8 +6,6 @@
             <certificates src="system" />
             <!-- Additionally trust user added CAs -->
             <certificates src="user" />
-            <!-- Trust test CAs -->
-            <certificates src="@instrumentation_cert.pem"/>
         </trust-anchors>
     </base-config>
 </network-security-config>

@@ -7,7 +7,6 @@ import me.vickychijwani.spectre.testing.urlMatches
 import okhttp3.*
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
-import okhttp3.tls.HeldCertificate
 import org.hamcrest.Matchers.*
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -15,7 +14,6 @@ import org.junit.Assert.assertThat
 import org.junit.Assert.fail
 import org.junit.Before
 import org.junit.Test
-import java.net.InetAddress
 
 /**
  * TYPE: unit tests (independent of server and android)
@@ -32,25 +30,17 @@ class NetworkBlogUrlValidatorTest {
     // setup / teardown
     @Before
     fun setupMockServer() {
-        val localhost = InetAddress.getByName("localhost").getCanonicalHostName()
-        val localhostCertificate = HeldCertificate.Builder()
-            .addSubjectAlternativeName(localhost)
-            .duration(10 * 365, TimeUnit.DAYS)
-            .build()
-
-        val localhostCertificate =
-            HeldCertificate.decode("instrumentation_cert.pem".loadString())
-
-        val serverCertificates = HandshakeCertificates.Builder()
+        String localhost = InetAddress.getByName("localhost").getCanonicalHostName();
+        HeldCertificate localhostCertificate = new HeldCertificate.Builder()
+           .addSubjectAlternativeName(localhost)
+           .build();
+        HandshakeCertificates serverCertificates = new HandshakeCertificates.Builder()
             .heldCertificate(localhostCertificate)
-            .build()
+            .build();
+        MockWebServer server = new MockWebServer();
+        server.useHttps(serverCertificates.sslSocketFactory(), false);
 
         server = MockWebServer().also {
-            it.useHttps(
-                serverCertificates.sslSocketFactory(),
-                tunnelProxy = false,
-            )
-
             it.start()
         }
     }
