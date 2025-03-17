@@ -50,9 +50,7 @@ class NetworkBlogUrlValidatorTest {
         val httpClient = Helpers.prodHttpClient
         val actualUrl = checkGhostBlog(blogUrl, httpClient)
 
-        println(actualUrl)
-
-        //assertEquals(actualUrl, blogUrl)
+        assertEquals(actualUrl, blogUrl)
     }
 
     @Test
@@ -87,8 +85,8 @@ class NetworkBlogUrlValidatorTest {
         val blogUrl = "$HTTPS${server.hostName}:${server.port}/"
         val httpClient = Helpers.prodHttpClient
 
-        //assertThat(checkGhostBlog(blogUrl, httpClient),
-        //        isOneOf(blogUrl, blogUrl.replaceFirst("/$".toRegex(), "")))
+        assertThat(checkGhostBlog(blogUrl, httpClient),
+                isOneOf(blogUrl, blogUrl.replaceFirst("/$".toRegex(), "")))
     }
 
     @Test
@@ -123,7 +121,7 @@ class NetworkBlogUrlValidatorTest {
         val blogUrl = "$HTTPS${server.hostName}:${server.port}/blog"
         val httpClient = Helpers.prodHttpClient
 
-        //assertThat(checkGhostBlog(blogUrl, httpClient), `is`(blogUrl))
+        assertThat(checkGhostBlog(blogUrl, httpClient), `is`(blogUrl))
     }
 
     @Test
