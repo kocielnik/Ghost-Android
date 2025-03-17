@@ -30,6 +30,16 @@ class NetworkBlogUrlValidatorTest {
     // setup / teardown
     @Before
     fun setupMockServer() {
+        String localhost = InetAddress.getByName("localhost").getCanonicalHostName();
+        HeldCertificate localhostCertificate = new HeldCertificate.Builder()
+           .addSubjectAlternativeName(localhost)
+           .build();
+        HandshakeCertificates serverCertificates = new HandshakeCertificates.Builder()
+            .heldCertificate(localhostCertificate)
+            .build();
+        MockWebServer server = new MockWebServer();
+        server.useHttps(serverCertificates.sslSocketFactory(), false);
+
         server = MockWebServer().also {
             it.start()
         }
