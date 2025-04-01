@@ -29,7 +29,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build with Gradle
-      run: ./gradlew assembleDebug
+      run: nix develop --command ./gradlew assembleDebug
 
     - name: Setup Ghost
       run: |
