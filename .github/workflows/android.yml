@@ -15,6 +15,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - uses: DeterminateSystems/nix-installer-action@main
+    - uses: DeterminateSystems/flakehub-cache-action@main
+
     - name: set up JDK 17
       uses: actions/setup-java@v4
       with:
@@ -39,6 +42,9 @@ jobs:
 
     - name: Run tests
       run: ./gradlew testDebug -PdisablePreDex --console=plain
+
+    - name: Run tests with Nix
+      run: nix develop --command ./gradlew testDebug -PdisablePreDex --console=plain
 
     - name: Archive debug artifact
       uses: actions/upload-artifact@v4
