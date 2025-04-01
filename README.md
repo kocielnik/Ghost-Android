@@ -1,6 +1,6 @@
 <img src="https://i.imgur.com/ZN3qK49.gif" width="320" align="right" hspace="20">
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/kocielnik/Ghost-Android/tree/ci.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/kocielnik/Ghost-Android/tree/ci)
+[![](https://img.shields.io/circleci/project/TryGhost/Ghost-Android.svg)](https://circleci.com/gh/TryGhost/Ghost-Android)
 [![Translate on Weblate](https://hosted.weblate.org/widgets/ghost/-/svg-badge.svg)](https://hosted.weblate.org/engage/ghost/en/?utm_source=widget)
 
 The official Ghost Android application. Get it [here on the Google Play Store][playstore].
