@@ -21,7 +21,7 @@ jobs:
 
       - run:
           name: Download Dependencies
-          command: ./gradlew androidDependencies
+          command: cp -r .m2 $HOME/ && ./gradlew androidDependencies
 
       # https://circleci.com/docs/2.0/configuration-reference/#save_cache
       - save_cache:

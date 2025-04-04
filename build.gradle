@@ -9,6 +9,7 @@ buildscript {
         maven {
             url 'https://oss.sonatype.org/content/repositories/snapshots'
         }
+        mavenLocal()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.1.2'
@@ -27,8 +28,7 @@ allprojects {
         maven {
             url 'https://oss.sonatype.org/content/repositories/snapshots'
         }
-
-
+        mavenLocal()
     }
 }
 
