@@ -44,7 +44,7 @@ jobs:
       run: ./gradlew testDebug -PdisablePreDex --console=plain
 
     - name: Run tests with Nix
-      run: nix develop --command ./gradlew testDebug -PdisablePreDex --console=plain
+      run: nix shell --run "./gradlew testDebug -PdisablePreDex --console=plain"
 
     - name: Archive debug artifact
       uses: actions/upload-artifact@v4
