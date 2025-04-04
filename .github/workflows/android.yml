@@ -5,7 +5,7 @@ on: push
 jobs:
   build:
 
-    runs-on: cimg/android:2025.03
+    runs-on: ubuntu-latest
 
     services:
       ghost:
