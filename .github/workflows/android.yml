@@ -55,3 +55,10 @@ jobs:
         name: "Ghost-Android-${{env.version_name}}"
         path: |
           app/build/outputs/apk/debug/app-debug.apk
+
+    - name: Publish APK
+      uses: ShaunLWM/action-release-debugapk@master
+      env:
+       GITHUB_TOKEN: ${{ secrets.TOKEN }}
+       APP_FOLDER: app/build/outputs/apk/debug
+       RELEASE_TITLE: "Ghost-Android-${{env.version_name}}"
