@@ -40,9 +40,18 @@ jobs:
     - name: Run tests
       run: ./gradlew testDebug -PdisablePreDex --console=plain
 
+    - name : Retrieve Version
+      run: |
+        echo "::set-output name=VERSION_NAME::$(grep -rnwe versionName ${{github.workspace}}/app/build.gradle | awk '{print($3)}' | tr -d \')"
+      id: android_version
+
+    - name: Get version
+      run: |
+        echo "version_name=${{steps.android_version.outputs.VERSION_NAME}}" >> $GITHUB_ENV
+
     - name: Archive debug artifact
       uses: actions/upload-artifact@v4
       with:
-        name: debug-build
+        name: Ghost-Android
         path: |
           app/build/outputs/apk/debug/app-debug.apk
