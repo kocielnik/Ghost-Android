@@ -3,7 +3,7 @@
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/kocielnik/Ghost-Android/tree/ci.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/kocielnik/Ghost-Android/tree/ci)
 [![Translate on Weblate](https://hosted.weblate.org/widgets/ghost/-/svg-badge.svg)](https://hosted.weblate.org/engage/ghost/en/?utm_source=widget)
 
-The official Ghost Android application. Get it [here on the Google Play Store][playstore].
+The official Ghost Android application.
 
 <a href='https://play.google.com/store/apps/details?id=org.ghost.android&utm_source=github&utm_campaign=readme&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width='300px'/></a>
 
@@ -60,7 +60,6 @@ If you face any issues setting this up, please let me know by [filing a new issu
 - [Weizhi Xie](https://github.com/xieweizhi) (Traditional Chinese (zh-HK) translation)
 - [@monolifed](https://hosted.weblate.org/user/monolifed/) (Turkish translation)
 
-[playstore]: https://play.google.com/store/apps/details?id=org.ghost.android
 [weblate]: https://hosted.weblate.org/engage/ghost/en/
 [conflict-ui]: https://github.com/vickychijwani/quill/issues/144#issuecomment-264991612
 
