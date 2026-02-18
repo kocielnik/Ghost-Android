@@ -34,9 +34,11 @@ If you need help getting started, drop a comment on [this issue](https://github.
 
 ### Developer setup
 
-Setup is as simple as importing the project into Android Studio and building (assuming you have the correct build tools and Android SDK).
+Setup is as simple as importing the project into Android Studio and building
+(assuming you have the correct build tools and Android SDK).
 
-If you face any issues setting this up, please let me know by [filing a new issue](/issues/new).
+If you face any issues setting this up, please let me know by [filing a new
+issue](/issues/new).
 
 ### Contributors
 
