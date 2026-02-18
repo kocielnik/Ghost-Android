@@ -30,7 +30,8 @@ If you'd like to see support for your language in Ghost Android, you can easily 
 - Single and double quotes need to be preceded with a backslash character (`\'` and `\"` respectively)
 - For short strings, try to keep the translated string length close to the English one, because longer strings may not fit in the UI
 
-If you need help getting started, drop a comment on [this issue](https://github.com/TryGhost/Ghost-Android/issues/14).
+If you need help getting started, drop a comment on [this
+issue](https://github.com/TryGhost/Ghost-Android/issues/14).
 
 ### Developer setup
 
