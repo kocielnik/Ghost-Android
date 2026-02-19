@@ -58,13 +58,13 @@ jobs:
         path: |
           app/build/outputs/apk/debug/app-debug.apk
 
+    - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: app/build/outputs/apk/debug/app-debug.apk
+
     - name: Publish APK
       env:
        GITHUB_TOKEN: ${{ secrets.TOKEN }}
        VERSION: ${{ env.version_name }}
       run: ./publish.sh
-
-    - name: Create Release
-	  uses: actions/upload-artifact@v2
-	  with:
-		name: "Ghost-Android-v${{ env.version_name }}-preview"
