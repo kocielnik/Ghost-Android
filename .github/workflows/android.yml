@@ -63,3 +63,10 @@ jobs:
        GITHUB_TOKEN: ${{ secrets.TOKEN }}
        VERSION: ${{ env.version_name }}
       run: ./publish.sh
+
+    - name: Release to GitHub
+      uses: ShaunLWM/action-release-debugapk@master
+      env:
+       GITHUB_TOKEN: ${{ secrets.TOKEN }}
+       APP_FOLDER: app
+       RELEASE_TITLE: "Ghost-Android-${{env.version_name}}-preview"
