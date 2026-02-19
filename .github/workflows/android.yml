@@ -59,7 +59,8 @@ jobs:
           app/build/outputs/apk/debug/app-debug.apk
 
   publish:
-    permissions: artifact_metadata: write
+    permissions:
+      artifact_metadata: write
     runs-on: ubuntu-latest
     steps:
     - name: Publish APK
