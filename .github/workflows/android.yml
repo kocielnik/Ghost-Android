@@ -64,9 +64,7 @@ jobs:
        VERSION: ${{ env.version_name }}
       run: ./publish.sh
 
-    - name: Release to GitHub
-      uses: ShaunLWM/action-release-debugapk@master
-      env:
-       GITHUB_TOKEN: ${{ secrets.TOKEN }}
-       APP_FOLDER: app
-       RELEASE_TITLE: "Ghost-Android-preview"
+    - name: Create Release
+	  uses: actions/upload-artifact@v2
+	  with:
+		name: "Ghost-Android-v${{ env.version_name }}-preview"
