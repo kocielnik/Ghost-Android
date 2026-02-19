@@ -58,9 +58,6 @@ jobs:
         path: |
           app/build/outputs/apk/debug/app-debug.apk
 
-  publish:
-    runs-on: ubuntu-latest
-    steps:
     - name: Publish APK
       env:
        VERSION: ${{ env.version_name }}
