@@ -60,7 +60,7 @@ jobs:
 
   publish:
     permissions:
-      artifact_metadata: write
+      artifacts: write
     runs-on: ubuntu-latest
     steps:
     - name: Publish APK
