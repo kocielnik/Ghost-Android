@@ -60,6 +60,5 @@ jobs:
 
     - name: Publish APK
       env:
-       GITHUB_TOKEN: ${{ secrets.TOKEN }}
        VERSION: ${{ env.version_name }}
       run: ./publish.sh
