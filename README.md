@@ -16,7 +16,8 @@ The official Ghost Android application.
 - Works with **[Ghost Pro](https://ghost.org/pricing/)** (ghost.io) as well as **self-hosted blogs**
 - **Offline mode**: Ghost Android is designed to work 100% offline: just sync when you're connected later! Ideal for writing on the go
 - **Attach tags and a cover image** - upload images from your phone or a web link
-- **[Conflict handling][conflict-ui]** - a simple UI to help decide what to do next when a post is edited from two places at once
+- **[Conflict handling][conflict-ui]** - a simple UI to help decide what to do
+  next when a post is edited from two places at once
 
 ### Bug reports? Feature requests?
 
