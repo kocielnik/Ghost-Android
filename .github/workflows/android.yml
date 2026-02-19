@@ -62,7 +62,9 @@ jobs:
     permissions: artifact_metadata: write
     runs-on: ubuntu-latest
     steps:
-    - name: Publish APK
-      env:
-       VERSION: ${{ env.version_name }}
-      run: ./publish.sh
+    - name: Create a release from the debug APK
+      uses: ncipollo/release-action@v1
+      with:
+        artifacts: "Ghost-Android-${{env.version_name}}"
+        tag: "v${{env.version_name}}"
+        name: "Ghost Android v${{env.version_name}}"
