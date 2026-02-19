@@ -218,6 +218,7 @@ public class PostListActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        if (binding == null) return;  // activity finishing early (redirected to login)
         // load cached data immediately
         refreshData(true);
         // reset views involved in new post animation
@@ -241,7 +242,7 @@ public class PostListActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (binding.postList != null) {
+        if (binding != null && binding.postList != null) {
             // cancel any ongoing image requests, courtesy http://stackoverflow.com/a/33961706/504611
             // not doing this in onPause or onStop because there we wouldn't want to clear the list itself
             binding.postList.setAdapter(null);
