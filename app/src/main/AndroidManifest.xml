@@ -24,6 +24,7 @@
 
         <activity
             android:name=".view.LoginActivity"
+            android:exported="false"
             android:windowSoftInputMode="adjustResize"
             android:launchMode="singleTop"
             android:theme="@style/LoginTheme">
@@ -42,6 +43,7 @@
 
         <activity
             android:name=".view.PostViewActivity"
+            android:exported="false"
             android:parentActivityName=".view.PostListActivity"
             android:windowSoftInputMode="adjustResize">
             <meta-data
@@ -51,6 +53,7 @@
 
         <activity
             android:name=".view.PostConflictResolutionActivity"
+            android:exported="false"
             android:parentActivityName=".view.PostListActivity"
             android:windowSoftInputMode="adjustResize"
             android:launchMode="singleTask">
@@ -61,6 +64,7 @@
 
         <activity
             android:name=".view.AboutActivity"
+            android:exported="false"
             android:parentActivityName=".view.PostListActivity"
             android:theme="@style/CardListActivityTheme">
             <meta-data
@@ -70,6 +74,7 @@
 
         <activity
             android:name=".view.OpenSourceLibsActivity"
+            android:exported="false"
             android:parentActivityName=".view.AboutActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
