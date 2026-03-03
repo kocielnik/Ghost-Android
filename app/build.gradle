@@ -36,13 +36,15 @@ android {
         buildConfig = true
     }
 
-    lintOptions {
+    lint {
         // check for lint errors but don't abort builds
         // I had to disable it because we don't get translations for new strings immediately
         abortOnError false
     }
-    packagingOptions {
-        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    packaging {
+        resources {
+            excludes += 'META-INF/services/javax.annotation.processing.Processor'
+        }
         // Unable to strip the following libraries, packaging them as they are:
         jniLibs.keepDebugSymbols.add("**/librealm-jni.so")
     }
