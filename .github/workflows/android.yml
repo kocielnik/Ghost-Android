@@ -60,7 +60,7 @@ jobs:
 
     - name: Release
       uses: softprops/action-gh-release@v2
-      #if: github.ref_type == 'tag'
+      if: github.ref_type == 'tag'
       with:
         files: app/build/outputs/apk/debug/app-debug.apk
 
