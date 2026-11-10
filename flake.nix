@@ -13,7 +13,10 @@
           config.android_sdk.accept_license = true;
           config.allowUnfree = true;
         };
-        androidSdk = pkgs.androidenv.androidPkgs_9_0.androidsdk;
+        androidSdk = (pkgs.androidenv.composeAndroidPackages {
+          platformVersions = [ "35" ];
+          buildToolsVersions = [ "35.0.0" "36.0.0" ];
+        }).androidsdk;
       in
       {
         devShells.default = pkgs.mkShell {
@@ -28,7 +31,7 @@
           ];
           LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive";
           TARGET_SDK_VERSION = 34;
-          ANDROID_HOME = "android-sdk";
+          ANDROID_HOME = "${androidSdk}/libexec/android-sdk";
         };
       });
 }
