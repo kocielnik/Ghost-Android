@@ -24,8 +24,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        // Vendored: com.github.katoro:typekit is no longer served by jitpack
-        maven { url "${rootDir}/.m2/repository" }
         maven { url 'https://jitpack.io' }
         maven {
             url 'https://oss.sonatype.org/content/repositories/snapshots'
