@@ -3,12 +3,13 @@ package me.vickychijwani.spectre;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.otto.DeadEvent;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
-import com.tsengvn.typekit.Typekit;
 
 import java.io.File;
 
@@ -16,6 +17,7 @@ import io.reactivex.plugins.RxJavaPlugins;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import me.vickychijwani.spectre.analytics.AnalyticsService;
+import me.vickychijwani.spectre.view.FontViewInflater;
 import me.vickychijwani.spectre.auth.LoginOrchestrator;
 import me.vickychijwani.spectre.error.UncaughtRxException;
 import me.vickychijwani.spectre.event.ApiErrorEvent;
@@ -88,12 +90,14 @@ public class SpectreApplication extends Application {
     }
 
     private void setupFonts() {
-        Typekit.getInstance()
-                .addNormal(Typekit.createFromAsset(this, "fonts/OpenSans-Regular.ttf"))
-                .addItalic(Typekit.createFromAsset(this, "fonts/OpenSans-Italic.ttf"))
-                .addBold(Typekit.createFromAsset(this, "fonts/OpenSans-Bold.ttf"))
-                .addBoldItalic(Typekit.createFromAsset(this, "fonts/OpenSans-BoldItalic.ttf"))
-                .add("narrow-bold", Typekit.createFromAsset(this, "fonts/OpenSans-CondBold.ttf"));
+        AssetManager assets = getAssets();
+        FontViewInflater.setFonts(
+                Typeface.createFromAsset(assets, "fonts/OpenSans-Regular.ttf"),
+                Typeface.createFromAsset(assets, "fonts/OpenSans-Italic.ttf"),
+                Typeface.createFromAsset(assets, "fonts/OpenSans-Bold.ttf"),
+                Typeface.createFromAsset(assets, "fonts/OpenSans-BoldItalic.ttf"));
+        FontViewInflater.addNamedFont("narrow-bold",
+                Typeface.createFromAsset(assets, "fonts/OpenSans-CondBold.ttf"));
     }
 
     public static SpectreApplication getInstance() {

@@ -83,8 +83,6 @@ dependencies {
     implementation "androidx.percentlayout:percentlayout:1.0.0"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     implementation "org.ocpsoft.prettytime:prettytime:4.0.1.Final"
-    // using a fork because https://github.com/tsengvn/typekit/issues/9#issuecomment-324478332
-    implementation "com.github.katoro:typekit:1.0.1"
 
     // misc
 /*    implementation "com.jakewharton:butterknife:$rootProject.ext.butterKnifeVersion"

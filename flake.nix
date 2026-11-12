@@ -16,6 +16,10 @@
         androidSdk = (pkgs.androidenv.composeAndroidPackages {
           platformVersions = [ "35" ];
           buildToolsVersions = [ "35.0.0" "36.0.0" ];
+          includeEmulator = true;
+          includeSystemImages = true;
+          systemImageTypes = [ "default" ];
+          abiVersions = [ "x86_64" ];
         }).androidsdk;
       in
       {

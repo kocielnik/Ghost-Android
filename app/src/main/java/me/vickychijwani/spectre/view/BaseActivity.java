@@ -1,7 +1,6 @@
 package me.vickychijwani.spectre.view;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,7 +17,6 @@ import androidx.fragment.app.Fragment;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
-import com.tsengvn.typekit.TypekitContextWrapper;
 
 import java.util.List;
 
@@ -150,11 +148,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         // finally, delegate to superclass
         super.onBackPressed();
-    }
-
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(TypekitContextWrapper.wrap(newBase));
     }
 
     protected void startBrowserActivity(String url) {

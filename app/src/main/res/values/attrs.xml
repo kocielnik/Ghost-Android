@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Name of a custom font registered in FontViewInflater, e.g. "narrow-bold" -->
+    <attr name="fontName" format="string"/>
+</resources>

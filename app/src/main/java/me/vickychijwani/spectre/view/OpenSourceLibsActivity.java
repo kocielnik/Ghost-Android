@@ -38,8 +38,7 @@ public class OpenSourceLibsActivity extends BaseActivity {
             new Library("RxAndroid", "ReactiveX", "https://github.com/ReactiveX/RxAndroid"),
             new Library("Showdown", "ShowdownJS and Hannah Wolfe", "https://github.com/ErisDS/showdown/"),
             new Library("Slugify", "Danny Trunk", "https://github.com/slugify/slugify"),
-            new Library("Stetho", "Facebook Inc.", "http://facebook.github.io/stetho/"),
-            new Library("Typekit", "Hien Ngo", "https://github.com/tsengvn/typekit")
+            new Library("Stetho", "Facebook Inc.", "http://facebook.github.io/stetho/")
     );
 
     private LibsAdapter mLibsAdapter;

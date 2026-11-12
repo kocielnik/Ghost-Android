@@ -2,6 +2,8 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="viewInflaterClass">me.vickychijwani.spectre.view.FontViewInflater</item>
+
         <!-- main -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>

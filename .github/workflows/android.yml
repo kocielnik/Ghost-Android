@@ -28,7 +28,7 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build with Gradle
-      run: cp -r .m2 $HOME/ && ./gradlew assembleDebug
+      run: ./gradlew assembleDebug
 
     - name: Setup Ghost
       run: |
@@ -68,3 +68,47 @@ jobs:
       env:
        VERSION: ${{ env.version_name }}
       run: ./publish.sh
+
+  emulator-smoke:
+    # Launches the app on the newest Android emulator and fails on crash; uploads a screenshot.
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Enable KVM
+      run: |
+        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+        sudo udevadm control --reload-rules
+        sudo udevadm trigger --name-match=kvm
+    - uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+    - name: Prepare local Maven repo
+      run: chmod +x gradlew && ./gradlew assembleDebug
+    - name: Run app in emulator
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 35
+        target: default
+        arch: x86_64
+        script: |
+          adb install -r -t app/build/outputs/apk/debug/app-debug.apk
+          adb logcat -c
+          adb shell monkey -p org.ghost.android -c android.intent.category.LAUNCHER 1
+          for i in $(seq 60); do
+            adb logcat -d -s ActivityTaskManager:I | grep -q -E "Displayed org.ghost.android/.*(LoginActivity|PostListActivity)" && break
+            sleep 5
+          done
+          sleep 10
+          adb logcat -d > logcat.txt
+          adb exec-out screencap -p > screenshot.png
+          adb shell pidof org.ghost.android
+          ! grep -A3 "FATAL EXCEPTION" logcat.txt | grep -q "Process: org.ghost.android"
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: emulator-smoke
+        path: |
+          screenshot.png
+          logcat.txt
