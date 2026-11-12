@@ -14,7 +14,7 @@
           config.allowUnfree = true;
         };
         androidSdk = (pkgs.androidenv.composeAndroidPackages {
-          platformVersions = [ "35" ];
+          platformVersions = [ "35" "36" ];
           buildToolsVersions = [ "35.0.0" "36.0.0" ];
           includeEmulator = true;
           includeSystemImages = true;

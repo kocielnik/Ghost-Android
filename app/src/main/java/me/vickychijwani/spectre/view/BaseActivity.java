@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.browser.customtabs.CustomTabsIntent;
 import androidx.core.app.NavUtils;
@@ -53,6 +54,18 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i(Log.Tag.LIFECYCLE, "%s#onCreate()", this.getClass().getSimpleName());
+        // Activity#onBackPressed() is not called when predictive back is enabled (default for targetSdk 36+)
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (handleBackPress()) {
+                    return;
+                }
+                setEnabled(false);
+                getOnBackPressedDispatcher().onBackPressed();
+                setEnabled(true);
+            }
+        });
     }
 
     protected void setLayout(int layoutResID) {
@@ -125,8 +138,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
+    /** @return true if the back press was consumed */
+    protected boolean handleBackPress() {
         Log.i(Log.Tag.LIFECYCLE, "%s#onBackPressed()", this.getClass().getSimpleName());
         // give fragments a chance to handle back press
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
@@ -138,16 +151,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
                 BaseFragment bf = (BaseFragment) f;
                 if (bf.onBackPressed()) {
-                    return;
+                    return true;
                 }
             }
         }
         // pop back stack if any
-        if (getSupportFragmentManager().popBackStackImmediate()) {
-            return;
-        }
-        // finally, delegate to superclass
-        super.onBackPressed();
+        return getSupportFragmentManager().popBackStackImmediate();
     }
 
     protected void startBrowserActivity(String url) {

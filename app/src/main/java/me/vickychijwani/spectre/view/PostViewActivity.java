@@ -304,12 +304,12 @@ public class PostViewActivity extends BaseActivity implements
     }
 
     @Override
-    public void onBackPressed() {
+    protected boolean handleBackPress() {
         if (binding.drawerLayout.isDrawerOpen(binding.navView)) {
             binding.drawerLayout.closeDrawer(binding.navView);
-            return;
+            return true;
         }
-        super.onBackPressed();
+        return super.handleBackPress();
     }
 
     public void viewPostInBrowser(boolean saveBeforeViewing) {
