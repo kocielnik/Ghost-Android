@@ -96,10 +96,7 @@ jobs:
           adb install -r -t app/build/outputs/apk/debug/app-debug.apk
           adb logcat -c
           adb shell monkey -p org.ghost.android -c android.intent.category.LAUNCHER 1
-          for i in $(seq 60); do
-            adb logcat -d -s ActivityTaskManager:I | grep -q -E "Displayed org.ghost.android/.*(LoginActivity|PostListActivity)" && break
-            sleep 5
-          done
+          for i in $(seq 60); do adb logcat -d -s ActivityTaskManager:I | grep -q -E "Displayed org.ghost.android/.*(LoginActivity|PostListActivity)" && break; sleep 5; done
           sleep 10
           adb logcat -d > logcat.txt
           adb exec-out screencap -p > screenshot.png
