@@ -7,7 +7,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-26
+    runs-on: ubuntu-26.04
 
     services:
       ghost:
@@ -71,7 +71,7 @@ jobs:
 
   emulator-smoke:
     # Launches the app on the newest Android emulator and fails on crash; uploads a screenshot.
-    runs-on: ubuntu-26
+    runs-on: ubuntu-26.04
     steps:
     - uses: actions/checkout@v4
     - name: Enable KVM
